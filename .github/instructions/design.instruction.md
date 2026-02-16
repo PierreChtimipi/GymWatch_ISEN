@@ -4,6 +4,15 @@
 
 ![Moodboard](./assets/moodboard.png)
 
+# Description générale 
+
+- Inspire-toi des patterns UX d’une application comme Basic-Fit France.
+- Inspire-toi des applications fitness modernes :
+    Dashboard avec statistiques en cartes
+    Navigation simple et mobile-first
+    Accent sur les KPI utilisateur
+    UX minimaliste
+
 ## Palette de couleurs
 
 Utiliser les couleurs definies dans le moodboard comme systeme principal de couleurs pour l'application.
@@ -32,6 +41,7 @@ Suivre les regles typographiques definies dans le moodboard :
 - **Boutons**: [Description du style]
 - **Cartes**: [Description du style]
 - **Icones**: [Description du style]
+
 
 ![Design Elements](./assets/elements.png)
 
