@@ -2,49 +2,44 @@
 
 ## Reference Moodboard
 
-![Moodboard](./assets/moodboard.png)
+![Moodboard](./img/Moodboard.png)
 
 # Description générale 
 
 - Inspire-toi des patterns UX d’une application comme Basic-Fit France.
 - Inspire-toi des applications fitness modernes :
-    Dashboard avec statistiques en cartes
-    Navigation simple et mobile-first
-    Accent sur les KPI utilisateur
-    UX minimaliste
+    - Dashboard avec statistiques en cartes
+    - Navigation simple et mobile-first
+    - Accent sur les KPI utilisateur
+    - UX minimaliste
 
 ## Palette de couleurs
 
-Utiliser les couleurs definies dans le moodboard comme systeme principal de couleurs pour l'application.
+- Utiliser les couleurs definies dans le moodboard comme systeme principal de couleurs pour l'application.
 
-| Couleur | Usage |
-|--------|-------|
-| Primaire | Actions principales et mises en avant |
-| Secondaire | Elements de support |
-| Neutre | Texte et arrieres-plans |
-| Accent | Elements d'appel a l'action |
+- Le orange comme couleur d'accentuation des actions, le blanc pour le fond et le noir pour faire la distinctions des élements.
 
-![Color Palette](./assets/colors.png)
+![Color Palette](./img/Color_palette.png)
 
 ## Typographie
 
 Suivre les regles typographiques definies dans le moodboard :
+- Police simple
 
-- **Titres**: [Nom de police et taille]
-- **Texte courant**: [Nom de police et taille]
-- **Petit texte**: [Nom de police et taille]
-
-![Typography Guide](./assets/typography.png)
+![Typography Guide](./img/typographie.png)
 
 ## Elements de design
 
-- **Boutons**: [Description du style]
-- **Cartes**: [Description du style]
-- **Icones**: [Description du style]
+- **NavBar** avec fond transparant / style liquid glass 
+- **Boutons**: Rond avec fond orange pour la page actuelle et fond noir pour les boutons inactifs 
+- **Icones** : Simple et intuitif de taille moyenne dans le cercle du bouton
+- **Cartes**: Cartes de séances de sport collective avec des couleurs spécifiques aux cours (exemple: Zumba: Rose, Crossfit: Gris, etc à définir)
 
 
-![Design Elements](./assets/elements.png)
+![Design Elements](./img/navbarButton.png)
 
 ## Implementation
 
-
+- Utiliser des composants React pour les éléments de design réutilisables (ex: NavBar, Bouton, Carte).
+- Appliquer les styles définis dans le moodboard de manière cohérente à travers l'application.
+- Assurer une expérience utilisateur fluide et intuitive, en particulier sur mobile.
