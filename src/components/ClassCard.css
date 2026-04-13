@@ -27,7 +27,9 @@
 
 .class-card-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
 }
 
 .class-card-name {
@@ -69,23 +71,25 @@
   transition: width 0.3s ease;
 }
 
-.class-card-btn {
-  align-self: flex-start;
-  font-family: var(--font-display);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  padding: 8px 20px;
-  border-radius: var(--radius-sm);
+.class-card-add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
   background: var(--color-black);
   color: var(--color-white);
+  cursor: pointer;
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.class-card-btn:active {
+.class-card-add-btn:active {
   transform: scale(0.96);
 }
 
-.class-card-btn:disabled {
+.class-card-add-btn:disabled {
   background: var(--color-gray-light);
   color: var(--color-gray);
   cursor: not-allowed;
