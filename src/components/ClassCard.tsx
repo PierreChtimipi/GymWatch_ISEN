@@ -1,4 +1,4 @@
-import { Clock, Users } from 'lucide-react';
+import { Clock, Users, Plus } from 'lucide-react';
 import type { GroupClass } from '../types';
 import './ClassCard.css';
 
@@ -19,8 +19,18 @@ export function ClassCard({ groupClass, onBook }: ClassCardProps) {
       <div className="class-card-accent" />
       <div className="class-card-body">
         <div className="class-card-header">
-          <h4 className="class-card-name">{groupClass.name}</h4>
-          <span className="class-card-instructor">{groupClass.instructor}</span>
+          <div>
+            <h4 className="class-card-name">{groupClass.name}</h4>
+            <span className="class-card-instructor">{groupClass.instructor}</span>
+          </div>
+          <button
+            className="class-card-add-btn"
+            disabled={isFull}
+            onClick={() => onBook(groupClass.id)}
+            aria-label={isFull ? 'Complet' : 'Ajouter'}
+          >
+            <Plus size={16} />
+          </button>
         </div>
         <div className="class-card-meta">
           <span className="class-card-detail">
@@ -38,13 +48,6 @@ export function ClassCard({ groupClass, onBook }: ClassCardProps) {
             style={{ width: `${100 - spotsPercentage}%` }}
           />
         </div>
-        <button
-          className="class-card-btn"
-          disabled={isFull}
-          onClick={() => onBook(groupClass.id)}
-        >
-          {isFull ? 'Complet' : "S'inscrire"}
-        </button>
       </div>
     </div>
   );
