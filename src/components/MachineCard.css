@@ -1,0 +1,101 @@
+.machine-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-light);
+  transition: box-shadow 0.2s ease;
+}
+
+.machine-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.machine-card-status {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.machine-card--available .machine-card-status {
+  background: var(--color-success);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+}
+
+.machine-card--busy .machine-card-status {
+  background: var(--color-danger);
+  box-shadow: 0 0 8px rgba(229, 57, 53, 0.4);
+}
+
+.machine-card--reserved .machine-card-status {
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(245, 166, 35, 0.4);
+}
+
+.machine-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.machine-card-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.machine-card-category {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+
+.machine-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+}
+
+.machine-card-badge {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.machine-card--available .machine-card-badge {
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--color-success);
+}
+
+.machine-card--busy .machine-card-badge {
+  background: rgba(229, 57, 53, 0.1);
+  color: var(--color-danger);
+}
+
+.machine-card--reserved .machine-card-badge {
+  background: rgba(245, 166, 35, 0.1);
+  color: var(--color-primary-dark);
+}
+
+.machine-card-btn {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: var(--color-white);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.machine-card-btn:active {
+  transform: scale(0.96);
+  background: var(--color-primary-dark);
+}
