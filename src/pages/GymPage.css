@@ -62,3 +62,10 @@
   flex-direction: column;
   gap: var(--spacing-sm);
 }
+
+.gym-empty {
+  text-align: center;
+  color: var(--color-gray);
+  padding: var(--spacing-2xl) 0;
+  font-size: 0.875rem;
+}

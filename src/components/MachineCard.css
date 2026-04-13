@@ -99,3 +99,13 @@
   transform: scale(0.96);
   background: var(--color-primary-dark);
 }
+
+.machine-card-btn--cancel {
+  background: transparent;
+  color: var(--color-danger);
+  border: 1px solid rgba(229, 57, 53, 0.3);
+}
+
+.machine-card-btn--cancel:active {
+  background: rgba(229, 57, 53, 0.05);
+}

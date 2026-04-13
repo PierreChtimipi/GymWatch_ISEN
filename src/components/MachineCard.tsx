@@ -1,12 +1,18 @@
 import type { Machine } from '../types';
+import { useAuth } from '../context/AuthContext';
 import './MachineCard.css';
 
 export interface MachineCardProps {
   machine: Machine;
   onReserve: (id: string) => void;
+  onRelease?: (id: string) => void;
 }
 
-export function MachineCard({ machine, onReserve }: MachineCardProps) {
+export function MachineCard({ machine, onReserve, onRelease }: MachineCardProps) {
+  const { user } = useAuth();
+
+  const isMyReservation = machine.reserved && machine.reservedBy === user?.name;
+
   const statusClass = machine.available
     ? 'machine-card--available'
     : machine.reserved
@@ -16,7 +22,7 @@ export function MachineCard({ machine, onReserve }: MachineCardProps) {
   const statusLabel = machine.available
     ? 'Disponible'
     : machine.reserved
-      ? 'Reservee'
+      ? isMyReservation ? 'Ma reservation' : 'Reservee'
       : 'Occupee';
 
   return (
@@ -34,6 +40,14 @@ export function MachineCard({ machine, onReserve }: MachineCardProps) {
             onClick={() => onReserve(machine.id)}
           >
             Reserver
+          </button>
+        )}
+        {isMyReservation && onRelease && (
+          <button
+            className="machine-card-btn machine-card-btn--cancel"
+            onClick={() => onRelease(machine.id)}
+          >
+            Annuler
           </button>
         )}
       </div>

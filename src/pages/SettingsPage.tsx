@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   User,
   Target,
@@ -9,7 +9,8 @@ import {
   ChevronRight,
   LogOut,
 } from 'lucide-react';
-import { userProfile } from '../data/mockData';
+import { useAuth } from '../context/AuthContext';
+import { api, type UserProfileResponse } from '../api';
 import './SettingsPage.css';
 
 interface SettingItemProps {
@@ -41,14 +42,19 @@ function SettingItem({ icon, label, value, onClick, toggle, toggled, onToggle }:
   );
 }
 
-export function SettingsPage() {
+export default function SettingsPage() {
+  const { user, logout } = useAuth();
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [profile, setProfile] = useState<UserProfileResponse | null>(null);
 
-  const memberDate = new Date(userProfile.memberSince).toLocaleDateString('fr-FR', {
-    month: 'long',
-    year: 'numeric',
-  });
+  useEffect(() => {
+    api.user.profile().then(setProfile);
+  }, []);
+
+  const memberDate = profile
+    ? new Date(profile.memberSince).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+    : '';
 
   return (
     <div className="page">
@@ -58,10 +64,10 @@ export function SettingsPage() {
 
       <div className="settings-profile card">
         <div className="settings-avatar">
-          <span>{userProfile.name[0]}</span>
+          <span>{user?.name[0]}</span>
         </div>
         <div className="settings-profile-info">
-          <h3 className="settings-profile-name">{userProfile.name}</h3>
+          <h3 className="settings-profile-name">{user?.name}</h3>
           <span className="settings-profile-since">Membre depuis {memberDate}</span>
         </div>
       </div>
@@ -72,12 +78,12 @@ export function SettingsPage() {
           <SettingItem
             icon={<User size={20} />}
             label="Mon profil"
-            value="Modifier mes informations"
+            value={user?.email}
           />
           <SettingItem
             icon={<Target size={20} />}
             label="Mes objectifs"
-            value={userProfile.goals.join(', ')}
+            value={profile?.goals.join(', ') || 'Aucun objectif'}
           />
           <SettingItem
             icon={<Calendar size={20} />}
@@ -112,7 +118,7 @@ export function SettingsPage() {
         </div>
       </div>
 
-      <button className="settings-logout">
+      <button className="settings-logout" onClick={logout}>
         <LogOut size={18} />
         Se deconnecter
       </button>

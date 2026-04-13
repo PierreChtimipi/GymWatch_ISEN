@@ -130,3 +130,10 @@
   color: var(--color-gray-light);
   font-size: 0.75rem;
 }
+
+.stats-empty {
+  text-align: center;
+  color: var(--color-gray);
+  padding: var(--spacing-2xl) 0;
+  font-size: 0.875rem;
+}
