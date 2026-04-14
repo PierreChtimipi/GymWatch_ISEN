@@ -1,0 +1,30 @@
+.gym-selector {
+  margin-bottom: var(--spacing-md);
+}
+
+.gym-selector-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.gym-selector-wrapper select {
+  appearance: none;
+  background: var(--color-gray-light);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 7px 32px 7px 14px;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-black);
+  cursor: pointer;
+  outline: none;
+}
+
+.gym-selector-arrow {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  color: var(--color-gray);
+}

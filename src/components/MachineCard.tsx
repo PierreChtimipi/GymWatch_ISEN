@@ -23,7 +23,7 @@ export function MachineCard({ machine, onReserve, onRelease }: MachineCardProps)
     ? 'Disponible'
     : machine.reserved
       ? isMyReservation ? 'Ma reservation' : 'Reservee'
-      : 'Occupee';
+      : 'Hors service';
 
   return (
     <div className={`machine-card ${statusClass}`}>

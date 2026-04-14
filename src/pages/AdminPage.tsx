@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Edit3, Check, X, ChevronDown, Shield } from "lucide-react";
-import { api, type AdminMachineRow, type AdminClassRow, type AdminGymRow } from "../api";
+import { api, type AdminMachineRow, type AdminClassRow, type AdminGymRow, type AdminClassPayload } from "../api";
 import { useToast } from "../hooks/useToast";
 import "./AdminPage.css";
 
@@ -46,6 +46,7 @@ export default function AdminPage() {
   const [machineForm, setMachineForm] = useState<MachineFormData>(emptyMachineForm);
   const [classForm, setClassForm] = useState<ClassFormData>(emptyClassForm);
   const [editingMachine, setEditingMachine] = useState<string | null>(null);
+  const [editingClass, setEditingClass] = useState<string | null>(null);
   const { toast, showToast } = useToast();
 
   const loadData = () => {
@@ -125,6 +126,17 @@ export default function AdminPage() {
     try {
       await api.admin.deleteClass(id);
       showToast("Cours supprime");
+      api.admin.classes().then(setClasses);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur", "error");
+    }
+  };
+
+  const handleUpdateClass = async (id: string, data: Partial<AdminClassPayload>) => {
+    try {
+      await api.admin.updateClass(id, data);
+      showToast("Cours mis a jour");
+      setEditingClass(null);
       api.admin.classes().then(setClasses);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -326,17 +338,30 @@ export default function AdminPage() {
               <h4 className="admin-group-title">{gymName}</h4>
               <div className="admin-items card">
                 {gymClasses.map((c, idx) => (
-                  <div key={c.id} className={`admin-item ${idx < gymClasses.length - 1 ? "admin-item--bordered" : ""}`}>
-                    <div className="admin-class-accent" style={{ background: c.color }} />
-                    <div className="admin-item-info">
-                      <span className="admin-item-name">{c.name}</span>
-                      <span className="admin-item-sub">{c.instructor} · {c.time} · {c.duration}min · {c.spotsLeft}/{c.totalSpots} places</span>
+                  <div key={c.id}>
+                    <div className={`admin-item ${idx < gymClasses.length - 1 && editingClass !== c.id ? "admin-item--bordered" : ""}`}>
+                      <div className="admin-class-accent" style={{ background: c.color }} />
+                      <div className="admin-item-info">
+                        <span className="admin-item-name">{c.name}</span>
+                        <span className="admin-item-sub">{c.instructor} · {c.time} · {c.duration}min · {c.spotsLeft}/{c.totalSpots} places</span>
+                      </div>
+                      <div className="admin-item-actions">
+                        <button className="admin-icon-btn" onClick={() => setEditingClass(editingClass === c.id ? null : c.id)}>
+                          <Edit3 size={15} />
+                        </button>
+                        <button className="admin-icon-btn admin-icon-btn--danger" onClick={() => handleDeleteClass(c.id)}>
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
                     </div>
-                    <div className="admin-item-actions">
-                      <button className="admin-icon-btn admin-icon-btn--danger" onClick={() => handleDeleteClass(c.id)}>
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
+                    {editingClass === c.id && (
+                      <ClassEditForm
+                        cls={c}
+                        gyms={gyms}
+                        onSave={(data) => handleUpdateClass(c.id, data)}
+                        onCancel={() => setEditingClass(null)}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -480,6 +505,69 @@ function GymEditCard({ gym, onSave }: GymEditCardProps) {
           </div>
         </form>
       )}
+    </div>
+  );
+}
+
+function ClassEditForm({ cls, gyms, onSave, onCancel }: { cls: AdminClassRow; gyms: AdminGymRow[]; onSave: (d: Partial<AdminClassPayload>) => void; onCancel: () => void }) {
+  const [form, setForm] = useState({
+    gymId: cls.gymId,
+    name: cls.name,
+    instructor: cls.instructor,
+    time: cls.time,
+    duration: String(cls.duration),
+    totalSpots: String(cls.totalSpots),
+    color: cls.color,
+  });
+
+  return (
+    <div className="admin-class-edit-form">
+      <div className="admin-form-row">
+        <div className="admin-form-field">
+          <label>Nom</label>
+          <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+        </div>
+        <div className="admin-form-field">
+          <label>Instructeur</label>
+          <input value={form.instructor} onChange={(e) => setForm({ ...form, instructor: e.target.value })} />
+        </div>
+      </div>
+      <div className="admin-form-row">
+        <div className="admin-form-field">
+          <label>Horaire</label>
+          <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} />
+        </div>
+        <div className="admin-form-field">
+          <label>Duree (min)</label>
+          <input type="number" min="15" max="180" value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} />
+        </div>
+        <div className="admin-form-field">
+          <label>Places</label>
+          <input type="number" min="1" max="100" value={form.totalSpots} onChange={(e) => setForm({ ...form, totalSpots: e.target.value })} />
+        </div>
+      </div>
+      <div className="admin-form-field">
+        <label>Couleur</label>
+        <div className="admin-select-wrapper">
+          <select value={form.color} onChange={(e) => setForm({ ...form, color: e.target.value })}>
+            {CLASS_COLORS.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+          </select>
+          <ChevronDown size={16} />
+        </div>
+      </div>
+      <div className="admin-form-field">
+        <label>Salle</label>
+        <div className="admin-select-wrapper">
+          <select value={form.gymId} onChange={(e) => setForm({ ...form, gymId: e.target.value })}>
+            {gyms.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+          </select>
+          <ChevronDown size={16} />
+        </div>
+      </div>
+      <div className="admin-form-actions">
+        <button type="button" className="admin-btn-cancel" onClick={onCancel}>Annuler</button>
+        <button type="button" className="admin-btn-submit" onClick={() => onSave({ ...form, duration: Number(form.duration), totalSpots: Number(form.totalSpots) })}>Enregistrer</button>
+      </div>
     </div>
   );
 }
