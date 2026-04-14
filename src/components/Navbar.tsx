@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Dumbbell, BarChart3, Settings } from 'lucide-react';
+import { Home, Dumbbell, BarChart3, Settings, MapPin } from 'lucide-react';
 import './Navbar.css';
 
 const navItems = [
   { to: '/', icon: Home, label: 'Accueil' },
+  { to: '/salles', icon: MapPin, label: 'Salles' },
   { to: '/salle', icon: Dumbbell, label: 'Ma Salle' },
   { to: '/stats', icon: BarChart3, label: 'Stats' },
   { to: '/settings', icon: Settings, label: 'Options' },
@@ -22,7 +23,7 @@ export function Navbar() {
             }
           >
             <div className="navbar-icon">
-              <Icon size={22} strokeWidth={2} />
+              <Icon size={20} strokeWidth={2} />
             </div>
             <span className="navbar-label">{label}</span>
           </NavLink>

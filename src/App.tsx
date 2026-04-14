@@ -3,12 +3,14 @@ import { Navbar } from './components/Navbar';
 import { useAuth } from './context/AuthContext';
 import HomePage from './pages/HomePage';
 import GymPage from './pages/GymPage';
+import GymListPage from './pages/GymListPage';
 import StatsPage from './pages/StatsPage';
 import SettingsPage from './pages/SettingsPage';
 import LoginPage from './pages/LoginPage';
+import AdminPage from './pages/AdminPage';
 
 function AppRoutes() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
 
   if (loading) {
     return (
@@ -26,9 +28,11 @@ function AppRoutes() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/salles" element={<GymListPage />} />
         <Route path="/salle" element={<GymPage />} />
         <Route path="/stats" element={<StatsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        {isAdmin && <Route path="/admin" element={<AdminPage />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Navbar />

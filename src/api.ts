@@ -41,13 +41,20 @@ export const api = {
   gym: {
     stats: () => request<GymStatsResponse>("/gym/stats"),
   },
+  gyms: {
+    list: () => request<GymResponse[]>("/gyms"),
+    get: (id: string) => request<GymResponse>(`/gyms/${id}`),
+    subscribe: (id: string) => request<{ success: boolean }>(`/gyms/${id}/subscribe`, { method: "POST" }),
+    unsubscribe: (id: string) => request<{ success: boolean }>(`/gyms/${id}/subscribe`, { method: "DELETE" }),
+    subscriptions: () => request<string[]>("/gyms/user/subscriptions"),
+  },
   machines: {
-    list: () => request<MachineResponse[]>("/machines"),
+    list: (gymId?: string) => request<MachineResponse[]>(`/machines${gymId ? `?gymId=${gymId}` : ""}`),
     reserve: (id: string) => request<{ success: boolean }>(`/machines/${id}/reserve`, { method: "POST" }),
     release: (id: string) => request<{ success: boolean }>(`/machines/${id}/release`, { method: "POST" }),
   },
   classes: {
-    list: () => request<GroupClassResponse[]>("/classes"),
+    list: (gymId?: string) => request<GroupClassResponse[]>(`/classes${gymId ? `?gymId=${gymId}` : ""}`),
     book: (id: string) => request<{ success: boolean }>(`/classes/${id}/book`, { method: "POST" }),
     cancel: (id: string) => request<{ success: boolean }>(`/classes/${id}/book`, { method: "DELETE" }),
   },
@@ -63,12 +70,33 @@ export const api = {
       }),
     bookings: () => request<GroupClassResponse[]>("/user/bookings"),
   },
+  admin: {
+    gyms: () => request<AdminGymRow[]>("/admin/gyms"),
+    updateGymStats: (id: string, data: Partial<{ currentOccupancy: number; co2Level: number; temperature: number }>) =>
+      request<{ success: boolean }>(`/admin/gyms/${id}/stats`, { method: "PUT", body: JSON.stringify(data) }),
+    machines: () => request<AdminMachineRow[]>("/admin/machines"),
+    createMachine: (data: { gymId: string; name: string; category: string }) =>
+      request<AdminMachineRow>("/admin/machines", { method: "POST", body: JSON.stringify(data) }),
+    updateMachine: (id: string, data: { name?: string; category?: string; available?: boolean }) =>
+      request<{ success: boolean }>(`/admin/machines/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+    deleteMachine: (id: string) =>
+      request<{ success: boolean }>(`/admin/machines/${id}`, { method: "DELETE" }),
+    classes: () => request<AdminClassRow[]>("/admin/classes"),
+    createClass: (data: AdminClassPayload) =>
+      request<AdminClassRow>("/admin/classes", { method: "POST", body: JSON.stringify(data) }),
+    updateClass: (id: string, data: Partial<AdminClassPayload>) =>
+      request<{ success: boolean }>(`/admin/classes/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+    deleteClass: (id: string) =>
+      request<{ success: boolean }>(`/admin/classes/${id}`, { method: "DELETE" }),
+    users: () => request<AdminUserRow[]>("/admin/users"),
+  },
 };
 
 export interface AuthUser {
   id: number;
   name: string;
   email: string;
+  isAdmin: boolean;
   memberSince: string;
   goals: string[];
 }
@@ -80,10 +108,23 @@ export interface GymStatsResponse {
   temperature: number;
 }
 
+export interface GymResponse {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  description: string;
+  maxCapacity: number;
+  currentOccupancy: number;
+  co2Level: number;
+  temperature: number;
+}
+
 export interface MachineResponse {
   id: string;
   name: string;
   category: string;
+  gymId: string;
   available: boolean;
   reserved: boolean;
   reservedBy?: string;
@@ -91,6 +132,7 @@ export interface MachineResponse {
 
 export interface GroupClassResponse {
   id: string;
+  gymId: string;
   name: string;
   instructor: string;
   time: string;
@@ -112,7 +154,62 @@ export interface UserProfileResponse {
   id: number;
   name: string;
   email: string;
+  isAdmin: boolean;
   memberSince: string;
   goals: string[];
   totalSessions: number;
+}
+
+export interface AdminGymRow {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  description: string;
+  max_capacity: number;
+  current_occupancy: number;
+  co2_level: number;
+  temperature: number;
+}
+
+export interface AdminMachineRow {
+  id: string;
+  gymId: string;
+  gymName: string;
+  name: string;
+  category: string;
+  available: boolean;
+  reserved: boolean;
+  reservedBy?: string;
+}
+
+export interface AdminClassRow {
+  id: string;
+  gymId: string;
+  gymName: string;
+  name: string;
+  instructor: string;
+  time: string;
+  duration: number;
+  spotsLeft: number;
+  totalSpots: number;
+  color: string;
+}
+
+export interface AdminClassPayload {
+  gymId: string;
+  name: string;
+  instructor: string;
+  time: string;
+  duration: number;
+  totalSpots: number;
+  color?: string;
+}
+
+export interface AdminUserRow {
+  id: number;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  memberSince: string;
 }

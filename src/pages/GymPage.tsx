@@ -20,8 +20,11 @@ export default function GymPage() {
   const { toast, showToast } = useToast();
 
   useEffect(() => {
-    api.machines.list().then(setMachines);
-    api.classes.list().then(setClasses);
+    api.gyms.subscriptions().then((subs) => {
+      const id = subs[0];
+      api.machines.list(id).then(setMachines);
+      api.classes.list(id).then(setClasses);
+    });
   }, []);
 
   const filteredMachines = machines.filter((m) => {

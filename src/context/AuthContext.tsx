@@ -5,6 +5,7 @@ interface AuthContextType {
   user: AuthUser | null;
   token: string | null;
   loading: boolean;
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -26,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             id: profile.id,
             name: profile.name,
             email: profile.email,
+            isAdmin: profile.isAdmin,
             memberSince: profile.memberSince,
             goals: profile.goals,
           });
@@ -61,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, isAdmin: user?.isAdmin ?? false, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,7 +8,9 @@ import {
   Bell,
   ChevronRight,
   LogOut,
+  Shield,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api, type UserProfileResponse } from '../api';
 import './SettingsPage.css';
@@ -43,7 +45,8 @@ function SettingItem({ icon, label, value, onClick, toggle, toggled, onToggle }:
 }
 
 export default function SettingsPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [profile, setProfile] = useState<UserProfileResponse | null>(null);
@@ -117,6 +120,20 @@ export default function SettingsPage() {
           />
         </div>
       </div>
+
+      {isAdmin && (
+        <div className="settings-section">
+          <h3 className="section-title">Administration</h3>
+          <div className="settings-group card">
+            <SettingItem
+              icon={<Shield size={20} />}
+              label="Panneau admin"
+              value="Gerer machines, cours et salles"
+              onClick={() => navigate('/admin')}
+            />
+          </div>
+        </div>
+      )}
 
       <button className="settings-logout" onClick={logout}>
         <LogOut size={18} />
