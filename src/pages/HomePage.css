@@ -148,3 +148,15 @@
   flex-direction: column;
   gap: var(--spacing-sm);
 }
+
+.home-no-gym {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+}
+
+.home-no-gym a {
+  color: var(--color-primary);
+  font-weight: 600;
+}

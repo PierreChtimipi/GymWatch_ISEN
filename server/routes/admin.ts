@@ -15,19 +15,32 @@ router.get("/gyms", (_, res) => {
   res.json(gyms);
 });
 
-router.put("/gyms/:id/stats", (req, res) => {
+router.put("/gyms/:id", (req, res) => {
   const { id } = req.params;
-  const { currentOccupancy, co2Level, temperature } = req.body;
+  const { name, address, city, description, maxCapacity, currentOccupancy, co2Level, temperature } = req.body;
+
+  const gym = db.prepare("SELECT id FROM gyms WHERE id = ?").get(id);
+  if (!gym) { res.status(404).json({ error: "Salle introuvable" }); return; }
 
   db.prepare(`
     UPDATE gyms SET
+      name = COALESCE(?, name),
+      address = COALESCE(?, address),
+      city = COALESCE(?, city),
+      description = COALESCE(?, description),
+      max_capacity = COALESCE(?, max_capacity),
       current_occupancy = COALESCE(?, current_occupancy),
       co2_level = COALESCE(?, co2_level),
       temperature = COALESCE(?, temperature)
     WHERE id = ?
-  `).run(currentOccupancy ?? null, co2Level ?? null, temperature ?? null, id);
+  `).run(
+    name ?? null, address ?? null, city ?? null, description ?? null,
+    maxCapacity ?? null, currentOccupancy ?? null, co2Level ?? null, temperature ?? null,
+    id
+  );
 
-  res.json({ success: true });
+  const updated = db.prepare("SELECT * FROM gyms WHERE id = ?").get(id);
+  res.json(updated);
 });
 
 // ─── Machines ────────────────────────────────────────────────────────────────

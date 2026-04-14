@@ -131,18 +131,6 @@ export default function AdminPage() {
     }
   };
 
-  // ─── Gym stats handlers ──────────────────────────────────────────────────
-
-  const handleUpdateGymStat = async (id: string, field: string, value: number) => {
-    try {
-      await api.admin.updateGymStats(id, { [field]: value });
-      showToast("Mise a jour effectuee");
-      api.admin.gyms().then(setGyms);
-    } catch (err) {
-      showToast(err instanceof Error ? err.message : "Erreur", "error");
-    }
-  };
-
   // ─── Grouped data ────────────────────────────────────────────────────────
 
   const machinesByGym = machines.reduce<Record<string, AdminMachineRow[]>>((acc, m) => {
@@ -357,20 +345,24 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* ─── GYMS STATS ───────────────────────────────────────────────── */}
+      {/* ─── GYMS ─────────────────────────────────────────────────────── */}
       {tab === "gyms" && (
         <div className="admin-section">
-          <h3 className="section-title">Stats en direct</h3>
+          <h3 className="section-title">Gestion des salles</h3>
           {gyms.map((gym) => (
-            <div key={gym.id} className="admin-gym-card card">
-              <h4 className="admin-gym-name">{gym.name}</h4>
-              <p className="admin-gym-city">{gym.city}</p>
-              <div className="admin-gym-stats">
-                <GymStatInput label="Affluence" value={gym.current_occupancy} max={gym.max_capacity} unit={`/${gym.max_capacity}`} onSave={(v) => handleUpdateGymStat(gym.id, "currentOccupancy", v)} />
-                <GymStatInput label="CO2 (ppm)" value={gym.co2_level} onSave={(v) => handleUpdateGymStat(gym.id, "co2Level", v)} />
-                <GymStatInput label="Temp (°C)" value={gym.temperature} step={0.5} onSave={(v) => handleUpdateGymStat(gym.id, "temperature", v)} />
-              </div>
-            </div>
+            <GymEditCard
+              key={gym.id}
+              gym={gym}
+              onSave={async (data) => {
+                try {
+                  await api.admin.updateGym(gym.id, data);
+                  showToast("Salle mise a jour !");
+                  api.admin.gyms().then(setGyms);
+                } catch (err) {
+                  showToast(err instanceof Error ? err.message : "Erreur", "error");
+                }
+              }}
+            />
           ))}
         </div>
       )}
@@ -382,7 +374,115 @@ export default function AdminPage() {
   );
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Sub-components ──────────────────────────────────────────────────────────
+
+interface GymEditCardProps {
+  gym: AdminGymRow;
+  onSave: (data: Record<string, unknown>) => void;
+}
+
+function GymEditCard({ gym, onSave }: GymEditCardProps) {
+  const [expanded, setExpanded] = useState(false);
+  const [form, setForm] = useState({
+    name: gym.name,
+    address: gym.address,
+    city: gym.city,
+    description: gym.description,
+    maxCapacity: String(gym.max_capacity),
+    currentOccupancy: String(gym.current_occupancy),
+    co2Level: String(gym.co2_level),
+    temperature: String(gym.temperature),
+  });
+
+  useEffect(() => {
+    setForm({
+      name: gym.name,
+      address: gym.address,
+      city: gym.city,
+      description: gym.description,
+      maxCapacity: String(gym.max_capacity),
+      currentOccupancy: String(gym.current_occupancy),
+      co2Level: String(gym.co2_level),
+      temperature: String(gym.temperature),
+    });
+  }, [gym]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({
+      name: form.name,
+      address: form.address,
+      city: form.city,
+      description: form.description,
+      maxCapacity: Number(form.maxCapacity),
+      currentOccupancy: Number(form.currentOccupancy),
+      co2Level: Number(form.co2Level),
+      temperature: Number(form.temperature),
+    });
+    setExpanded(false);
+  };
+
+  return (
+    <div className="admin-gym-card card">
+      <div className="admin-gym-card-header" onClick={() => setExpanded(!expanded)}>
+        <div>
+          <h4 className="admin-gym-name">{gym.name}</h4>
+          <p className="admin-gym-city">{gym.city} · {gym.current_occupancy}/{gym.max_capacity} personnes</p>
+        </div>
+        <button className="admin-icon-btn">
+          <Edit3 size={15} />
+        </button>
+      </div>
+
+      {expanded && (
+        <form className="admin-gym-form" onSubmit={handleSubmit}>
+          <div className="admin-form-row">
+            <div className="admin-form-field">
+              <label>Nom</label>
+              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            </div>
+            <div className="admin-form-field">
+              <label>Ville</label>
+              <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} required />
+            </div>
+          </div>
+          <div className="admin-form-field">
+            <label>Adresse</label>
+            <input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required />
+          </div>
+          <div className="admin-form-field">
+            <label>Description</label>
+            <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+          </div>
+          <div className="admin-form-row">
+            <div className="admin-form-field">
+              <label>Capacite max</label>
+              <input type="number" min="1" value={form.maxCapacity} onChange={(e) => setForm({ ...form, maxCapacity: e.target.value })} required />
+            </div>
+            <div className="admin-form-field">
+              <label>Affluence actuelle</label>
+              <input type="number" min="0" value={form.currentOccupancy} onChange={(e) => setForm({ ...form, currentOccupancy: e.target.value })} required />
+            </div>
+          </div>
+          <div className="admin-form-row">
+            <div className="admin-form-field">
+              <label>CO2 (ppm)</label>
+              <input type="number" value={form.co2Level} onChange={(e) => setForm({ ...form, co2Level: e.target.value })} required />
+            </div>
+            <div className="admin-form-field">
+              <label>Temperature (°C)</label>
+              <input type="number" step="0.5" value={form.temperature} onChange={(e) => setForm({ ...form, temperature: e.target.value })} required />
+            </div>
+          </div>
+          <div className="admin-form-actions">
+            <button type="button" className="admin-btn-cancel" onClick={() => setExpanded(false)}>Annuler</button>
+            <button type="submit" className="admin-btn-submit">Enregistrer</button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
 
 function EditNameInput({ defaultValue, onSave, onCancel }: { defaultValue: string; onSave: (v: string) => void; onCancel: () => void }) {
   const [value, setValue] = useState(defaultValue);
@@ -395,26 +495,3 @@ function EditNameInput({ defaultValue, onSave, onCancel }: { defaultValue: strin
   );
 }
 
-function GymStatInput({ label, value, unit, step = 1, onSave }: { label: string; value: number; max?: number; unit?: string; step?: number; onSave: (v: number) => void }) {
-  const [editing, setEditing] = useState(false);
-  const [val, setVal] = useState(String(value));
-
-  useEffect(() => { setVal(String(value)); }, [value]);
-
-  return (
-    <div className="admin-gym-stat">
-      <span className="admin-gym-stat-label">{label}</span>
-      {editing ? (
-        <div className="admin-gym-stat-edit">
-          <input type="number" value={val} step={step} onChange={(e) => setVal(e.target.value)} autoFocus />
-          <button onClick={() => { onSave(Number(val)); setEditing(false); }}><Check size={13} /></button>
-          <button onClick={() => setEditing(false)}><X size={13} /></button>
-        </div>
-      ) : (
-        <button className="admin-gym-stat-value" onClick={() => setEditing(true)}>
-          {value}{unit ?? ""} <Edit3 size={12} />
-        </button>
-      )}
-    </div>
-  );
-}

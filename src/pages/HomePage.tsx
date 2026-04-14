@@ -4,20 +4,45 @@ import { Link } from 'react-router-dom';
 import { OccupancyGauge } from '../components/OccupancyGauge';
 import { ClassCard } from '../components/ClassCard';
 import { useAuth } from '../context/AuthContext';
-import { api, type GymStatsResponse, type GroupClassResponse, type SessionResponse } from '../api';
+import { api, type GymResponse, type GroupClassResponse, type SessionResponse } from '../api';
 import { useToast } from '../hooks/useToast';
 import './HomePage.css';
 
 export default function HomePage() {
   const { user } = useAuth();
   const { toast, showToast } = useToast();
-  const [gymStats, setGymStats] = useState<GymStatsResponse | null>(null);
+  const [gym, setGym] = useState<GymResponse | null>(null);
   const [classes, setClasses] = useState<GroupClassResponse[]>([]);
   const [lastSession, setLastSession] = useState<SessionResponse | null>(null);
 
   useEffect(() => {
-    api.gym.stats().then(setGymStats);
-    api.classes.list().then(setClasses);
+    api.gyms.subscriptions().then(async (subs) => {
+      const gymId = subs[0];
+      if (gymId) {
+        const [gymData, classData] = await Promise.all([
+          api.gyms.get(gymId),
+          api.classes.list(gymId),
+        ]);
+        setGym(gymData);
+        setClasses(classData);
+      } else {
+        // Fallback si pas encore inscrit dans une salle
+        const stats = await api.gym.stats();
+        setGym({
+          id: "default",
+          name: "",
+          address: "",
+          city: "",
+          description: "",
+          maxCapacity: stats.maxCapacity,
+          currentOccupancy: stats.currentOccupancy,
+          co2Level: stats.co2Level,
+          temperature: stats.temperature,
+        });
+        api.classes.list().then(setClasses);
+      }
+    });
+
     api.sessions.list().then((sessions) => {
       if (sessions.length > 0) setLastSession(sessions[0]);
     });
@@ -27,7 +52,8 @@ export default function HomePage() {
     try {
       await api.classes.book(id);
       showToast("Inscription confirmee !");
-      const updated = await api.classes.list();
+      const gymId = gym?.id !== "default" ? gym?.id : undefined;
+      const updated = await api.classes.list(gymId);
       setClasses(updated);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -41,9 +67,10 @@ export default function HomePage() {
       <div className="page-header">
         <p className="home-greeting">Bonjour,</p>
         <h1 className="page-title">{user?.name}</h1>
+        {gym?.name && <p className="page-subtitle">{gym.name}</p>}
       </div>
 
-      {gymStats && (
+      {gym && (
         <>
           <div className="home-occupancy card">
             <div className="home-occupancy-header">
@@ -53,18 +80,18 @@ export default function HomePage() {
                 LIVE
               </div>
             </div>
-            <OccupancyGauge current={gymStats.currentOccupancy} max={gymStats.maxCapacity} />
+            <OccupancyGauge current={gym.currentOccupancy} max={gym.maxCapacity} />
           </div>
 
           <div className="home-env-row">
             <div className="home-env-card card">
               <Thermometer size={20} className="home-env-icon" />
-              <span className="home-env-value">{gymStats.temperature}°C</span>
+              <span className="home-env-value">{gym.temperature}°C</span>
               <span className="home-env-label">Temperature</span>
             </div>
             <div className="home-env-card card">
               <Wind size={20} className="home-env-icon" />
-              <span className="home-env-value">{gymStats.co2Level} ppm</span>
+              <span className="home-env-value">{gym.co2Level} ppm</span>
               <span className="home-env-label">CO2</span>
             </div>
           </div>
@@ -102,6 +129,11 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="home-classes-list">
+          {upcomingClasses.length === 0 && (
+            <p className="home-no-gym">
+              <Link to="/salles">Inscris-toi dans une salle</Link> pour voir les cours.
+            </p>
+          )}
           {upcomingClasses.map((c) => (
             <ClassCard key={c.id} groupClass={c} onBook={handleBook} />
           ))}

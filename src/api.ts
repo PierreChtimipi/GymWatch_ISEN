@@ -72,8 +72,8 @@ export const api = {
   },
   admin: {
     gyms: () => request<AdminGymRow[]>("/admin/gyms"),
-    updateGymStats: (id: string, data: Partial<{ currentOccupancy: number; co2Level: number; temperature: number }>) =>
-      request<{ success: boolean }>(`/admin/gyms/${id}/stats`, { method: "PUT", body: JSON.stringify(data) }),
+    updateGym: (id: string, data: Partial<{ name: string; address: string; city: string; description: string; maxCapacity: number; currentOccupancy: number; co2Level: number; temperature: number }>) =>
+      request<AdminGymRow>(`/admin/gyms/${id}`, { method: "PUT", body: JSON.stringify(data) }),
     machines: () => request<AdminMachineRow[]>("/admin/machines"),
     createMachine: (data: { gymId: string; name: string; category: string }) =>
       request<AdminMachineRow>("/admin/machines", { method: "POST", body: JSON.stringify(data) }),

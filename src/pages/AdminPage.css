@@ -330,6 +330,13 @@
   padding: var(--spacing-lg);
 }
 
+.admin-gym-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
 .admin-gym-name {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -340,13 +347,16 @@
 .admin-gym-city {
   font-size: 0.75rem;
   color: var(--color-gray);
-  margin-bottom: var(--spacing-md);
+  margin-top: 2px;
 }
 
-.admin-gym-stats {
+.admin-gym-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-light);
 }
 
 .admin-gym-stat {
