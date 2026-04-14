@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import db from "./database.js";
 
 const JWT_SECRET = "gymwatch-secret-key-dev";
 
@@ -23,6 +24,15 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
   } catch {
     res.status(403).json({ error: "Token invalide" });
   }
+}
+
+export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction) {
+  const user = db.prepare("SELECT is_admin FROM users WHERE id = ?").get(req.userId) as { is_admin: number } | undefined;
+  if (!user || !user.is_admin) {
+    res.status(403).json({ error: "Acces admin requis" });
+    return;
+  }
+  next();
 }
 
 export function signToken(userId: number): string {

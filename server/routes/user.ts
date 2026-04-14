@@ -8,7 +8,7 @@ router.get("/profile", authenticateToken, (req: AuthRequest, res) => {
   const userId = req.userId!;
 
   const user = db.prepare(
-    "SELECT id, name, email, member_since, goals FROM users WHERE id = ?"
+    "SELECT id, name, email, is_admin, member_since, goals FROM users WHERE id = ?"
   ).get(userId) as Record<string, unknown>;
 
   if (!user) {
@@ -24,6 +24,7 @@ router.get("/profile", authenticateToken, (req: AuthRequest, res) => {
     id: user.id,
     name: user.name,
     email: user.email,
+    isAdmin: Boolean(user.is_admin),
     memberSince: user.member_since,
     goals: JSON.parse(user.goals as string),
     totalSessions: sessionCount.count,
@@ -34,16 +35,11 @@ router.put("/profile", authenticateToken, (req: AuthRequest, res) => {
   const userId = req.userId!;
   const { name, goals } = req.body;
 
-  if (name) {
-    db.prepare("UPDATE users SET name = ? WHERE id = ?").run(name, userId);
-  }
-
-  if (goals) {
-    db.prepare("UPDATE users SET goals = ? WHERE id = ?").run(JSON.stringify(goals), userId);
-  }
+  if (name) db.prepare("UPDATE users SET name = ? WHERE id = ?").run(name, userId);
+  if (goals) db.prepare("UPDATE users SET goals = ? WHERE id = ?").run(JSON.stringify(goals), userId);
 
   const user = db.prepare(
-    "SELECT id, name, email, member_since, goals FROM users WHERE id = ?"
+    "SELECT id, name, email, is_admin, member_since, goals FROM users WHERE id = ?"
   ).get(userId) as Record<string, unknown>;
 
   const sessionCount = db.prepare(
@@ -54,6 +50,7 @@ router.put("/profile", authenticateToken, (req: AuthRequest, res) => {
     id: user.id,
     name: user.name,
     email: user.email,
+    isAdmin: Boolean(user.is_admin),
     memberSince: user.member_since,
     goals: JSON.parse(user.goals as string),
     totalSessions: sessionCount.count,

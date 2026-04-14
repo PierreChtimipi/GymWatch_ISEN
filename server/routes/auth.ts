@@ -32,6 +32,7 @@ router.post("/register", (req, res) => {
       id: result.lastInsertRowid,
       name,
       email,
+      isAdmin: false,
       memberSince: new Date().toISOString().split("T")[0],
       goals: [],
     },
@@ -47,8 +48,8 @@ router.post("/login", (req, res) => {
   }
 
   const user = db.prepare(
-    "SELECT id, name, email, password_hash, member_since, goals FROM users WHERE email = ?"
-  ).get(email) as { id: number; name: string; email: string; password_hash: string; member_since: string; goals: string } | undefined;
+    "SELECT id, name, email, password_hash, is_admin, member_since, goals FROM users WHERE email = ?"
+  ).get(email) as { id: number; name: string; email: string; password_hash: string; is_admin: number; member_since: string; goals: string } | undefined;
 
   if (!user || !bcrypt.compareSync(password, user.password_hash)) {
     res.status(401).json({ error: "Email ou mot de passe incorrect" });
@@ -63,6 +64,7 @@ router.post("/login", (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      isAdmin: Boolean(user.is_admin),
       memberSince: user.member_since,
       goals: JSON.parse(user.goals),
     },
