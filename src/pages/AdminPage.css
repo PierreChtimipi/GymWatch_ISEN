@@ -421,3 +421,30 @@
   justify-content: center;
   color: var(--color-gray);
 }
+
+/* ─── Dark mode support ──────────────────────────────────────────────────── */
+
+.dark .admin-form-field input,
+.dark .admin-form-field select {
+  color: var(--color-black);
+}
+
+.dark .admin-form-field input::placeholder {
+  color: var(--color-gray);
+}
+
+.dark .admin-edit-input input {
+  color: var(--color-black);
+}
+
+.dark .admin-edit-input input::placeholder {
+  color: var(--color-gray);
+}
+
+.dark .admin-gym-stat-edit input {
+  color: var(--color-black);
+}
+
+.dark .admin-gym-stat-edit input::placeholder {
+  color: var(--color-gray);
+}
