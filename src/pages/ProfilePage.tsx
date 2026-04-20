@@ -175,8 +175,7 @@ export default function ProfilePage() {
     if (!dur || !cal || !exo) { showToast('Remplis tous les champs', 'error'); return; }
     try {
       const today = new Date().toISOString().slice(0, 10);
-      await api.sessions.list(); // trigger creation below
-      await fetch('/api/sessions', {
+      const res = await fetch('/api/sessions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -184,6 +183,7 @@ export default function ProfilePage() {
         },
         body: JSON.stringify({ date: today, duration: dur, caloriesBurned: cal, exercisesCompleted: exo }),
       });
+      if (!res.ok) throw new Error();
       const [p, s] = await Promise.all([api.user.profile(), api.sessions.list()]);
       setProfile(p);
       setSessions(s);
@@ -191,7 +191,7 @@ export default function ProfilePage() {
       setAddingSession(false);
       showToast('Seance ajoutee !');
     } catch {
-      showToast('Erreur', 'error');
+      showToast('Erreur lors de l\'ajout', 'error');
     }
   };
 

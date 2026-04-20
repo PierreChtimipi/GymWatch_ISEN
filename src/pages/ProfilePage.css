@@ -470,50 +470,61 @@
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
+  border: 1px solid #e0e0e0;
 }
 
 .profile-session-form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-sm);
 }
 
 .profile-session-form-field {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: var(--radius-md);
+  padding: 10px var(--spacing-md);
 }
 .profile-session-form-field label {
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-gray);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  min-width: 90px;
+  flex-shrink: 0;
 }
 .profile-session-form-field input {
-  border: 1px solid #ddd;
-  border-radius: var(--radius-sm);
-  padding: 8px;
-  font-size: 0.9rem;
-  font-family: var(--font-body);
+  border: none;
   outline: none;
-  text-align: center;
-  background: var(--color-white);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-black);
+  background: transparent;
+  width: 100%;
+  -moz-appearance: textfield;
 }
-.profile-session-form-field input:focus { border-color: var(--color-primary); }
+.profile-session-form-field input::-webkit-outer-spin-button,
+.profile-session-form-field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.profile-session-form-field:focus-within {
+  border-color: var(--color-primary);
+  background: rgba(245, 166, 35, 0.03);
+}
 
 .profile-session-form-actions {
   display: flex;
   gap: var(--spacing-sm);
-  justify-content: flex-end;
 }
 
 .profile-form-cancel {
+  flex: 1;
   background: none;
   border: 1px solid #ddd;
   border-radius: var(--radius-md);
-  padding: 8px 16px;
+  padding: 10px;
   font-size: 0.85rem;
   cursor: pointer;
   font-family: var(--font-body);
@@ -521,16 +532,18 @@
 }
 
 .profile-form-submit {
+  flex: 2;
   background: var(--color-primary);
   border: none;
   border-radius: var(--radius-md);
-  padding: 8px 16px;
+  padding: 10px;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-white);
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font-family: var(--font-body);
 }

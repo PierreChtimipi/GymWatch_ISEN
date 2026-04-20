@@ -98,6 +98,18 @@ export function initDatabase() {
   } catch {
     // Column already exists — ignore
   }
+
+  // Migration: set default week plan for users with empty plan
+  const defaultPlan = JSON.stringify({
+    lun: "Push — Pectoraux, Triceps",
+    mar: "Pull — Dos, Biceps",
+    mer: "Repos actif",
+    jeu: "Legs — Cuisses, Fessiers",
+    ven: "Cardio — HIIT 30 min",
+    sam: "Full Body",
+    dim: "Repos",
+  });
+  db.prepare("UPDATE users SET week_plan = ? WHERE week_plan = '{}'").run(defaultPlan);
 }
 
 export function seedDatabase() {
