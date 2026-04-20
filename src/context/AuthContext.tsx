@@ -32,9 +32,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             goals: profile.goals,
           });
         })
-        .catch(() => {
-          localStorage.removeItem("gymwatch_token");
-          setToken(null);
+        .catch((err: unknown) => {
+          // Only clear token on 401 — not on server errors (5xx)
+          const msg = err instanceof Error ? err.message : '';
+          if (msg.includes('401') || msg.includes('403')) {
+            localStorage.removeItem("gymwatch_token");
+            setToken(null);
+          }
         })
         .finally(() => setLoading(false));
     } else {
