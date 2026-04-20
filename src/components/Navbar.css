@@ -15,10 +15,10 @@
   align-items: center;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--navbar-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--navbar-border);
   box-shadow: var(--shadow-lg);
 }
 
