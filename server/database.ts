@@ -121,7 +121,7 @@ export function seedDatabase() {
   const userCount = db.prepare("SELECT COUNT(*) as count FROM users").get() as { count: number };
   if (userCount.count > 0) return;
 
-  const demoHash = "$2b$10$qy/s9JIgDGi81cgoA9D1weSsjLMX2pI96iOVYUjjVryQ41d/O/8.e";
+  const demoHash = "$2b$10$lDLCKp6vI..r/i8yIgdZ5eulU5Hn8i0ohZcaIkX6Vx3JLD1DQEEHq"; // demo1234
 
   // Users — Valentin is admin
   const valentinPlan = JSON.stringify({
