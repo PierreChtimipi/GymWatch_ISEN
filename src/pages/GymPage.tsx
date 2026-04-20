@@ -20,12 +20,19 @@ export default function GymPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [machines, setMachines] = useState<MachineResponse[]>([]);
   const [classes, setClasses] = useState<GroupClassResponse[]>([]);
+  const [bookedClassIds, setBookedClassIds] = useState<string[]>([]);
   const { toast, showToast } = useToast();
 
   const reloadData = (gymId?: string) => {
     api.machines.list(gymId).then(setMachines);
     api.classes.list(gymId).then(setClasses);
   };
+
+  useEffect(() => {
+    api.user.bookings()
+      .then((bookings) => setBookedClassIds(bookings.map((b) => b.id)))
+      .catch(() => setBookedClassIds([]));
+  }, []);
 
   useEffect(() => {
     reloadData(selectedGymId ?? undefined);
@@ -64,6 +71,18 @@ export default function GymPage() {
     try {
       await api.classes.book(id);
       showToast("Inscription confirmée !");
+      setBookedClassIds((prev) => [...prev, id]);
+      if (selectedGymId) api.classes.list(selectedGymId).then(setClasses);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur", "error");
+    }
+  };
+
+  const handleCancelBooking = async (id: string) => {
+    try {
+      await api.classes.cancel(id);
+      showToast("Inscription annulée");
+      setBookedClassIds((prev) => prev.filter((bookedId) => bookedId !== id));
       if (selectedGymId) api.classes.list(selectedGymId).then(setClasses);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -111,7 +130,13 @@ export default function GymPage() {
       {activeTab === 'classes' && (
         <div className="gym-classes-list">
           {classes.map((c) => (
-            <ClassCard key={c.id} groupClass={c} onBook={handleBookClass} />
+            <ClassCard
+              key={c.id}
+              groupClass={c}
+              onBook={handleBookClass}
+              onCancel={handleCancelBooking}
+              isBooked={bookedClassIds.includes(c.id)}
+            />
           ))}
           {classes.length === 0 && <p className="gym-empty">Aucun cours programmé</p>}
         </div>
