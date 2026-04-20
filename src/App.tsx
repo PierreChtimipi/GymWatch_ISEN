@@ -6,6 +6,7 @@ import GymPage from './pages/GymPage';
 import GymListPage from './pages/GymListPage';
 import StatsPage from './pages/StatsPage';
 import SettingsPage from './pages/SettingsPage';
+import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
 
@@ -32,6 +33,7 @@ function AppRoutes() {
         <Route path="/salle" element={<GymPage />} />
         <Route path="/stats" element={<StatsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/profil" element={<ProfilePage />} />
         {isAdmin && <Route path="/admin" element={<AdminPage />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

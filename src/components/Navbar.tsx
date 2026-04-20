@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Dumbbell, BarChart3, Settings, MapPin } from 'lucide-react';
+import { Home, Dumbbell, BarChart3, User, MapPin } from 'lucide-react';
 import './Navbar.css';
 
 const navItems = [
@@ -7,7 +7,7 @@ const navItems = [
   { to: '/salles', icon: MapPin, label: 'Salles' },
   { to: '/salle', icon: Dumbbell, label: 'Ma Salle' },
   { to: '/stats', icon: BarChart3, label: 'Stats' },
-  { to: '/settings', icon: Settings, label: 'Options' },
+  { to: '/profil', icon: User, label: 'Profil' },
 ];
 
 export function Navbar() {
