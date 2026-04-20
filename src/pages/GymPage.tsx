@@ -43,7 +43,7 @@ export default function GymPage() {
   const handleReserve = async (id: string) => {
     try {
       await api.machines.reserve(id);
-      showToast("Machine reservee !");
+      showToast("Machine réservée !");
       reloadData(selectedGymId ?? undefined);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -53,7 +53,7 @@ export default function GymPage() {
   const handleRelease = async (id: string) => {
     try {
       await api.machines.release(id);
-      showToast("Reservation annulee");
+      showToast("Réservation annulée");
       reloadData(selectedGymId ?? undefined);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -63,7 +63,7 @@ export default function GymPage() {
   const handleBookClass = async (id: string) => {
     try {
       await api.classes.book(id);
-      showToast("Inscription confirmee !");
+      showToast("Inscription confirmée !");
       if (selectedGymId) api.classes.list(selectedGymId).then(setClasses);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -75,7 +75,7 @@ export default function GymPage() {
       <div className="page-header">
         <h1 className="page-title">Ma Salle</h1>
         <p className="page-subtitle">
-          {selectedGym ? `${availableCount}/${machines.length} machines disponibles` : "Aucune salle selectionnee"}
+          {selectedGym ? `${availableCount}/${machines.length} machines disponibles` : "Aucune salle sélectionnée"}
         </p>
       </div>
 
@@ -103,7 +103,7 @@ export default function GymPage() {
             {filteredMachines.map((machine) => (
               <MachineCard key={machine.id} machine={machine} onReserve={handleReserve} onRelease={handleRelease} />
             ))}
-            {filteredMachines.length === 0 && <p className="gym-empty">Aucune machine trouvee</p>}
+            {filteredMachines.length === 0 && <p className="gym-empty">Aucune machine trouvée</p>}
           </div>
         </>
       )}
@@ -113,7 +113,7 @@ export default function GymPage() {
           {classes.map((c) => (
             <ClassCard key={c.id} groupClass={c} onBook={handleBookClass} />
           ))}
-          {classes.length === 0 && <p className="gym-empty">Aucun cours programme</p>}
+          {classes.length === 0 && <p className="gym-empty">Aucun cours programmé</p>}
         </div>
       )}
 

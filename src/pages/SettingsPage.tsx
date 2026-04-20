@@ -137,7 +137,7 @@ export default function SettingsPage() {
 
       <button className="settings-logout" onClick={logout}>
         <LogOut size={18} />
-        Se deconnecter
+        Se déconnecter
       </button>
     </div>
   );

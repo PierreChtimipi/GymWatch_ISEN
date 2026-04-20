@@ -26,6 +26,7 @@ export function GymProvider({ children }: { children: ReactNode }) {
       const all = await api.gyms.list();
       const sub = all.filter((g) => ids.includes(g.id));
       setSubscribedGyms(sub);
+
       setSelectedGymId((prev) => {
         const valid = prev && ids.includes(prev) ? prev : (ids[0] ?? null);
         localStorage.setItem("gymwatch_gym_id", valid ?? "");

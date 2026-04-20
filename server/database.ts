@@ -164,10 +164,10 @@ export function seedDatabase() {
   insertMachine.run("g1m4", "g1", "Tapis de course #2", "Cardio", 1, 0, null);
   insertMachine.run("g1m5", "g1", "Leg Press", "Jambes", 0, 1, 1);
   insertMachine.run("g1m6", "g1", "Poulie haute", "Dos", 1, 0, null);
-  insertMachine.run("g1m7", "g1", "Velo elliptique", "Cardio", 0, 0, null);
-  insertMachine.run("g1m8", "g1", "Developpe epaules", "Epaules", 1, 0, null);
+  insertMachine.run("g1m7", "g1", "Vélo elliptique", "Cardio", 0, 0, null);
+  insertMachine.run("g1m8", "g1", "Développé épaules", "Épaules", 1, 0, null);
   insertMachine.run("g1m9", "g1", "Curl biceps", "Bras", 1, 0, null);
-  insertMachine.run("g1m10", "g1", "Presse a cuisses", "Jambes", 0, 1, 2);
+  insertMachine.run("g1m10", "g1", "Presse à cuisses", "Jambes", 0, 1, 2);
 
   // g2 machines
   insertMachine.run("g2m1", "g2", "Rack Olympique", "Pectoraux", 1, 0, null);
