@@ -4,6 +4,10 @@ import { authenticateToken, AuthRequest } from "../middleware.js";
 
 const router = Router();
 
+function safeParse<T>(raw: unknown, fallback: T): T {
+  try { return JSON.parse(raw as string) as T; } catch { return fallback; }
+}
+
 function formatUser(user: Record<string, unknown>, sessionCount: number) {
   return {
     id: user.id,
@@ -11,8 +15,8 @@ function formatUser(user: Record<string, unknown>, sessionCount: number) {
     email: user.email,
     isAdmin: Boolean(user.is_admin),
     memberSince: user.member_since,
-    goals: JSON.parse((user.goals as string) || "[]"),
-    weekPlan: JSON.parse((user.week_plan as string) || "{}"),
+    goals: safeParse<string[]>(user.goals, []),
+    weekPlan: safeParse<Record<string, string>>(user.week_plan, {}),
     totalSessions: sessionCount,
   };
 }

@@ -99,7 +99,7 @@ export function initDatabase() {
     // Column already exists — ignore
   }
 
-  // Migration: set default week plan for users with empty plan
+  // Migration: set default week plan for users with empty or invalid JSON plan
   const defaultPlan = JSON.stringify({
     lun: "Push — Pectoraux, Triceps",
     mar: "Pull — Dos, Biceps",
@@ -109,7 +109,12 @@ export function initDatabase() {
     sam: "Full Body",
     dim: "Repos",
   });
-  db.prepare("UPDATE users SET week_plan = ? WHERE week_plan = '{}'").run(defaultPlan);
+  const usersToFix = db.prepare("SELECT id, week_plan FROM users").all() as { id: number; week_plan: string }[];
+  for (const u of usersToFix) {
+    let valid = true;
+    try { const p = JSON.parse(u.week_plan); if (typeof p !== "object" || Array.isArray(p) || Object.keys(p).length === 0) valid = false; } catch { valid = false; }
+    if (!valid) db.prepare("UPDATE users SET week_plan = ? WHERE id = ?").run(defaultPlan, u.id);
+  }
 }
 
 export function seedDatabase() {

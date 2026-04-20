@@ -107,18 +107,15 @@ export default function ProfilePage() {
   const [sessionForm, setSessionForm] = useState({ duration: '', calories: '', exercises: '' });
 
   useEffect(() => {
-    Promise.all([
-      api.user.profile(),
-      api.sessions.list(),
-      api.user.bookings(),
-    ]).then(([p, s, b]) => {
+    api.user.profile().then((p) => {
       setProfile(p);
-      setGoals(p.goals);
-      setWeekPlan(p.weekPlan || {});
+      setGoals(p.goals ?? []);
+      setWeekPlan(p.weekPlan ?? {});
       setNameInput(p.name);
-      setSessions(s);
-      setBookings(b);
-    });
+    }).catch(() => {});
+
+    api.sessions.list().then(setSessions).catch(() => {});
+    api.user.bookings().then(setBookings).catch(() => {});
   }, []);
 
   // ── Name ──
