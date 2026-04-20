@@ -1,13 +1,15 @@
-import { Clock, Users, Plus } from 'lucide-react';
+import { Clock, Users, Plus, CheckCircle } from 'lucide-react';
 import type { GroupClass } from '../types';
 import './ClassCard.css';
 
 export interface ClassCardProps {
   groupClass: GroupClass;
   onBook: (id: string) => void;
+  onCancel?: (id: string) => void;
+  isBooked?: boolean;
 }
 
-export function ClassCard({ groupClass, onBook }: ClassCardProps) {
+export function ClassCard({ groupClass, onBook, onCancel, isBooked }: ClassCardProps) {
   const spotsPercentage = (groupClass.spotsLeft / groupClass.totalSpots) * 100;
   const isFull = groupClass.spotsLeft === 0;
 
@@ -23,14 +25,30 @@ export function ClassCard({ groupClass, onBook }: ClassCardProps) {
             <h4 className="class-card-name">{groupClass.name}</h4>
             <span className="class-card-instructor">{groupClass.instructor}</span>
           </div>
-          <button
-            className="class-card-add-btn"
-            disabled={isFull}
-            onClick={() => onBook(groupClass.id)}
-            aria-label={isFull ? 'Complet' : 'Ajouter'}
-          >
-            <Plus size={16} />
-          </button>
+          {isBooked ? (
+            <div className="class-card-booked-actions">
+              <div className="class-card-booked-badge">
+                <CheckCircle size={14} />
+                Inscrit
+              </div>
+              <button
+                type="button"
+                className="class-card-cancel-btn"
+                onClick={() => onCancel?.(groupClass.id)}
+              >
+                Annuler
+              </button>
+            </div>
+          ) : (
+            <button
+              className="class-card-add-btn"
+              disabled={isFull}
+              onClick={() => onBook(groupClass.id)}
+              aria-label={isFull ? 'Complet' : 'Ajouter'}
+            >
+              <Plus size={16} />
+            </button>
+          )}
         </div>
         <div className="class-card-meta">
           <span className="class-card-detail">
