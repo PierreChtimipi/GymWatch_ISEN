@@ -68,7 +68,12 @@ export const api = {
         method: "PUT",
         body: JSON.stringify(data),
       }),
-    bookings: () => request<GroupClassResponse[]>("/user/bookings"),
+    updateWeekPlan: (weekPlan: Record<string, string>) =>
+      request<{ success: boolean }>("/user/week-plan", {
+        method: "PUT",
+        body: JSON.stringify({ weekPlan }),
+      }),
+    bookings: () => request<BookedClassResponse[]>("/user/bookings"),
   },
   admin: {
     gyms: () => request<AdminGymRow[]>("/admin/gyms"),
@@ -157,7 +162,21 @@ export interface UserProfileResponse {
   isAdmin: boolean;
   memberSince: string;
   goals: string[];
+  weekPlan: Record<string, string>;
   totalSessions: number;
+}
+
+export interface BookedClassResponse {
+  id: string;
+  gymId: string;
+  gymName: string;
+  name: string;
+  instructor: string;
+  time: string;
+  duration: number;
+  spotsLeft: number;
+  totalSpots: number;
+  color: string;
 }
 
 export interface AdminGymRow {
