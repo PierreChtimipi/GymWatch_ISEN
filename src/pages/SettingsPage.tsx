@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { api, type UserProfileResponse } from '../api';
 import './SettingsPage.css';
 
@@ -46,9 +47,9 @@ function SettingItem({ icon, label, value, onClick, toggle, toggled, onToggle }:
 
 export default function SettingsPage() {
   const { user, logout, isAdmin } = useAuth();
+  const { darkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [profile, setProfile] = useState<UserProfileResponse | null>(null);
 
   useEffect(() => {
@@ -111,7 +112,7 @@ export default function SettingsPage() {
             label="Mode sombre"
             toggle
             toggled={darkMode}
-            onToggle={setDarkMode}
+            onToggle={toggleDarkMode}
           />
           <SettingItem
             icon={<Accessibility size={20} />}

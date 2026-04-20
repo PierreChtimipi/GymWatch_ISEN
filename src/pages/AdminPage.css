@@ -294,7 +294,7 @@
 }
 
 .admin-icon-btn:active {
-  background: #e0e0e0;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .admin-icon-btn--danger {

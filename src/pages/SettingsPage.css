@@ -116,7 +116,7 @@
   width: 22px;
   height: 22px;
   border-radius: var(--radius-full);
-  background: var(--color-white);
+  background: var(--color-toggle-thumb);
   box-shadow: var(--shadow-sm);
   position: absolute;
   top: 2px;
