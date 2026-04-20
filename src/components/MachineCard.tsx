@@ -22,7 +22,7 @@ export function MachineCard({ machine, onReserve, onRelease }: MachineCardProps)
   const statusLabel = machine.available
     ? 'Disponible'
     : machine.reserved
-      ? isMyReservation ? 'Ma reservation' : 'Reservee'
+      ? isMyReservation ? 'Ma réservation' : 'Réservée'
       : 'Hors service';
 
   return (

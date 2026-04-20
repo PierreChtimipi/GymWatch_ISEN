@@ -23,7 +23,7 @@ export function GymProvider({ children }: { children: ReactNode }) {
       const all = await api.gyms.list();
       const sub = all.filter((g) => ids.includes(g.id));
       setSubscribedGyms(sub);
-      // Si la salle selectionnee n'est plus dans les abonnements, prendre la premiere
+      // Si la salle sélectionnée n'est plus dans les abonnements, prendre la première
       setSelectedGymId((prev) => {
         const valid = prev && ids.includes(prev) ? prev : (ids[0] ?? null);
         localStorage.setItem("gymwatch_gym_id", valid ?? "");

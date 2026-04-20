@@ -15,7 +15,7 @@ const CLASS_COLORS = [
   { label: "Cycling (Orange)", value: "var(--color-cycling)" },
 ];
 
-const MACHINE_CATEGORIES = ["Cardio", "Pectoraux", "Jambes", "Dos", "Epaules", "Bras", "CrossFit"];
+const MACHINE_CATEGORIES = ["Cardio", "Pectoraux", "Jambes", "Dos", "Épaules", "Bras", "CrossFit"];
 
 interface MachineFormData {
   gymId: string;
@@ -75,7 +75,7 @@ export default function AdminPage() {
   const handleToggleMachineAvailability = async (machine: AdminMachineRow) => {
     try {
       await api.admin.updateMachine(machine.id, { available: !machine.available });
-      showToast(machine.available ? "Machine marquee hors service" : "Machine disponible");
+      showToast(machine.available ? "Machine marquée hors service" : "Machine disponible");
       api.admin.machines().then(setMachines);
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -164,7 +164,7 @@ export default function AdminPage() {
           <Shield size={20} className="admin-shield" />
           <h1 className="page-title">Administration</h1>
         </div>
-        <p className="page-subtitle">Gestion des salles et equipements</p>
+        <p className="page-subtitle">Gestion des salles et équipements</p>
       </div>
 
       <div className="admin-tabs">
@@ -197,7 +197,7 @@ export default function AdminPage() {
                 <label>Salle</label>
                 <div className="admin-select-wrapper">
                   <select value={machineForm.gymId} onChange={(e) => setMachineForm({ ...machineForm, gymId: e.target.value })} required>
-                    <option value="">Selectionner une salle</option>
+                    <option value="">Sélectionner une salle</option>
                     {gyms.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
                   </select>
                   <ChevronDown size={16} />
@@ -286,7 +286,7 @@ export default function AdminPage() {
                   <label>Salle</label>
                   <div className="admin-select-wrapper">
                     <select value={classForm.gymId} onChange={(e) => setClassForm({ ...classForm, gymId: e.target.value })} required>
-                      <option value="">Selectionner</option>
+                      <option value="">Sélectionner</option>
                       {gyms.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
                     </select>
                     <ChevronDown size={16} />
@@ -318,7 +318,7 @@ export default function AdminPage() {
                   <input type="time" value={classForm.time} onChange={(e) => setClassForm({ ...classForm, time: e.target.value })} required />
                 </div>
                 <div className="admin-form-field">
-                  <label>Duree (min)</label>
+                  <label>Durée (min)</label>
                   <input type="number" min="15" max="180" value={classForm.duration} onChange={(e) => setClassForm({ ...classForm, duration: e.target.value })} required />
                 </div>
                 <div className="admin-form-field">
@@ -381,7 +381,7 @@ export default function AdminPage() {
               onSave={async (data) => {
                 try {
                   await api.admin.updateGym(gym.id, data);
-                  showToast("Salle mise a jour !");
+                  showToast("Salle mise à jour !");
                   api.admin.gyms().then(setGyms);
                 } catch (err) {
                   showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -481,7 +481,7 @@ function GymEditCard({ gym, onSave }: GymEditCardProps) {
           </div>
           <div className="admin-form-row">
             <div className="admin-form-field">
-              <label>Capacite max</label>
+              <label>Capacité max</label>
               <input type="number" min="1" value={form.maxCapacity} onChange={(e) => setForm({ ...form, maxCapacity: e.target.value })} required />
             </div>
             <div className="admin-form-field">
@@ -495,7 +495,7 @@ function GymEditCard({ gym, onSave }: GymEditCardProps) {
               <input type="number" value={form.co2Level} onChange={(e) => setForm({ ...form, co2Level: e.target.value })} required />
             </div>
             <div className="admin-form-field">
-              <label>Temperature (°C)</label>
+              <label>Température (°C)</label>
               <input type="number" step="0.5" value={form.temperature} onChange={(e) => setForm({ ...form, temperature: e.target.value })} required />
             </div>
           </div>
@@ -538,7 +538,7 @@ function ClassEditForm({ cls, gyms, onSave, onCancel }: { cls: AdminClassRow; gy
           <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} />
         </div>
         <div className="admin-form-field">
-          <label>Duree (min)</label>
+          <label>Durée (min)</label>
           <input type="number" min="15" max="180" value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} />
         </div>
         <div className="admin-form-field">

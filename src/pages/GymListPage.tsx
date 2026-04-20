@@ -20,11 +20,11 @@ export default function GymListPage() {
       if (subscribed) {
         await api.gyms.unsubscribe(gymId);
         setSubscriptions((prev) => prev.filter((id) => id !== gymId));
-        showToast("Desinscription confirmee");
+        showToast("Désinscription confirmée");
       } else {
         await api.gyms.subscribe(gymId);
         setSubscriptions((prev) => [...prev, gymId]);
-        showToast("Inscription confirmee !");
+        showToast("Inscription confirmée !");
       }
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Erreur", "error");
@@ -96,7 +96,7 @@ export default function GymListPage() {
                 onClick={() => toggleSubscription(gym.id)}
               >
                 {subscribed ? (
-                  "Se desinscrire"
+                  "Se désinscrire"
                 ) : (
                   <>
                     <Plus size={16} />

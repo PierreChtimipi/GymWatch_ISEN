@@ -38,11 +38,11 @@ export default function LoginPage() {
           <Dumbbell size={40} strokeWidth={2.5} />
         </div>
         <h1 className="login-title">GymWatch</h1>
-        <p className="login-subtitle">Ta salle connectee</p>
+        <p className="login-subtitle">Ta salle connectée</p>
       </div>
 
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="form-title">{isRegister ? "Creer un compte" : "Se connecter"}</h2>
+        <h2 className="form-title">{isRegister ? "Créer un compte" : "Se connecter"}</h2>
 
         {error && <div className="login-error">{error}</div>}
 
