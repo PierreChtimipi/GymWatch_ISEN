@@ -20,6 +20,7 @@ export function initDatabase() {
       is_admin INTEGER NOT NULL DEFAULT 0,
       member_since TEXT NOT NULL DEFAULT (date('now')),
       goals TEXT NOT NULL DEFAULT '[]',
+      week_plan TEXT NOT NULL DEFAULT '{}',
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
@@ -90,6 +91,13 @@ export function initDatabase() {
       temperature REAL NOT NULL DEFAULT 22.5
     );
   `);
+
+  // Migration: add week_plan column if it doesn't exist yet
+  try {
+    db.exec("ALTER TABLE users ADD COLUMN week_plan TEXT NOT NULL DEFAULT '{}'");
+  } catch {
+    // Column already exists — ignore
+  }
 }
 
 export function seedDatabase() {
@@ -99,11 +107,20 @@ export function seedDatabase() {
   const demoHash = "$2b$10$qy/s9JIgDGi81cgoA9D1weSsjLMX2pI96iOVYUjjVryQ41d/O/8.e";
 
   // Users — Valentin is admin
+  const valentinPlan = JSON.stringify({
+    lun: "Push — Pectoraux, Triceps",
+    mar: "Pull — Dos, Biceps",
+    mer: "Repos actif",
+    jeu: "Legs — Cuisses, Fessiers",
+    ven: "Cardio — HIIT 30 min",
+    sam: "Full Body",
+    dim: "Repos",
+  });
   const insertUser = db.prepare(
-    "INSERT INTO users (name, email, password_hash, is_admin, member_since, goals) VALUES (?, ?, ?, ?, ?, ?)"
+    "INSERT INTO users (name, email, password_hash, is_admin, member_since, goals, week_plan) VALUES (?, ?, ?, ?, ?, ?, ?)"
   );
-  insertUser.run("Valentin", "valentin@gymwatch.fr", demoHash, 1, "2025-09-01", JSON.stringify(["Prise de masse", "Endurance", "Flexibilite"]));
-  insertUser.run("Sophie", "sophie@gymwatch.fr", demoHash, 0, "2025-10-15", JSON.stringify(["Cardio", "Tonicite"]));
+  insertUser.run("Valentin", "valentin@gymwatch.fr", demoHash, 1, "2025-09-01", JSON.stringify(["Prise de masse", "Endurance", "Flexibilite"]), valentinPlan);
+  insertUser.run("Sophie", "sophie@gymwatch.fr", demoHash, 0, "2025-10-15", JSON.stringify(["Cardio", "Tonicite"]), JSON.stringify({}));
 
   // Gyms
   const insertGym = db.prepare(
