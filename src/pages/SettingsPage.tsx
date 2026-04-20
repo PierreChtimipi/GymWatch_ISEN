@@ -82,16 +82,19 @@ export default function SettingsPage() {
             icon={<User size={20} />}
             label="Mon profil"
             value={user?.email}
+            onClick={() => navigate('/profil')}
           />
           <SettingItem
             icon={<Target size={20} />}
             label="Mes objectifs"
             value={profile?.goals.join(', ') || 'Aucun objectif'}
+            onClick={() => navigate('/profil')}
           />
           <SettingItem
             icon={<Calendar size={20} />}
             label="Planification de seance"
             value="Programmer mes entrainements"
+            onClick={() => navigate('/profil')}
           />
         </div>
       </div>
