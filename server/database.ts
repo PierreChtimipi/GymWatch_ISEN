@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_PATH = path.join(__dirname, "..", "gymwatch.db");
+const DB_PATH = process.env.GYMWATCH_DB ?? path.join(__dirname, "..", "gymwatch.db");
 
 const db = new Database(DB_PATH);
 

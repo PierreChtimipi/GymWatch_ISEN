@@ -136,7 +136,7 @@ router.post("/classes", (req, res) => {
   const id = `${gymId}c${uuidv4().slice(0, 6)}`;
   db.prepare(
     "INSERT INTO group_classes (id, gym_id, name, instructor, time, duration, spots_left, total_spots, color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-  ).run(id, gymId, name, instructor, time, duration, totalSpots, color || "var(--color-crossfit)");
+  ).run(id, gymId, name, instructor, time, duration, totalSpots, totalSpots, color || "var(--color-crossfit)");
 
   res.status(201).json({ id, gymId, name, instructor, time, duration, spotsLeft: totalSpots, totalSpots, color });
 });
