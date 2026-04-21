@@ -7,10 +7,6 @@ export default defineConfig({
     setupFiles: ["server/tests/globalSetup.ts"],
     // Chaque fichier de test a son propre module registry → DB fraîche
     isolate: true,
-    pool: "forks",
-    poolOptions: {
-      forks: { singleFork: true },
-    },
     reporters: ["verbose"],
   },
 });

@@ -36,7 +36,7 @@ describe("GET /api/machines", () => {
 describe("POST /api/machines/:id/reserve", () => {
   it("200 — réservation réussie", async () => {
     const res = await request(app)
-      .post("/api/machines/m1/reserve")
+      .post("/api/machines/g1m1/reserve")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -44,7 +44,7 @@ describe("POST /api/machines/:id/reserve", () => {
 
   it("400 — machine déjà réservée", async () => {
     const res = await request(app)
-      .post("/api/machines/m1/reserve")
+      .post("/api/machines/g1m1/reserve")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(400);
   });
@@ -57,7 +57,7 @@ describe("POST /api/machines/:id/reserve", () => {
   });
 
   it("401 — sans token", async () => {
-    const res = await request(app).post("/api/machines/m1/reserve");
+    const res = await request(app).post("/api/machines/g1m1/reserve");
     expect(res.status).toBe(401);
   });
 });
@@ -66,7 +66,7 @@ describe("POST /api/machines/:id/release", () => {
   it("200 — libération réussie", async () => {
     // m1 est réservée par Valentin (test précédent)
     const res = await request(app)
-      .post("/api/machines/m1/release")
+      .post("/api/machines/g1m1/release")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -74,7 +74,7 @@ describe("POST /api/machines/:id/release", () => {
 
   it("400 — machine pas réservée par cet utilisateur", async () => {
     const res = await request(app)
-      .post("/api/machines/m1/release")
+      .post("/api/machines/g1m1/release")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(400);
   });
