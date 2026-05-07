@@ -7,7 +7,8 @@
     "dev": "concurrently \"vite\" \"tsx --watch server/index.ts\"",
     "dev:front": "vite",
     "dev:api": "tsx --watch server/index.ts",
-    "build": "tsc -b && vite build",
+    "generate-icons": "node scripts/generate-icons.mjs",
+    "build": "npm run generate-icons && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run --reporter=verbose server/tests",
@@ -43,11 +44,13 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "sharp": "^0.34.5",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",
     "vite": "^8.0.4",
+    "vite-plugin-pwa": "^1.3.0",
     "vitest": "^4.1.4"
   }
 }
