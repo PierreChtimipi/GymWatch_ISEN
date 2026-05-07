@@ -32,8 +32,10 @@ test.describe('Gestion du profil', () => {
     const nameInput = page.locator('.profile-name-input');
     await expect(nameInput).toBeVisible();
 
-    // Modifier le nom
+    // fill() déclenche l'événement input natif que React capte via onChange
     await nameInput.fill('Valentin Test');
+    // Vérifier que React a bien mis à jour le state avant de sauvegarder
+    await expect(nameInput).toHaveValue('Valentin Test', { timeout: 3000 });
     await page.locator('.profile-name-save').click();
 
     // Le nouveau nom doit s'afficher
@@ -43,7 +45,10 @@ test.describe('Gestion du profil', () => {
     const editBtn2 = page.locator('.profile-name-edit-btn');
     await editBtn2.scrollIntoViewIfNeeded();
     await editBtn2.click();
-    await page.locator('.profile-name-input').fill(originalName);
+    const nameInput2 = page.locator('.profile-name-input');
+    await expect(nameInput2).toBeVisible();
+    await nameInput2.fill(originalName);
+    await expect(nameInput2).toHaveValue(originalName, { timeout: 3000 });
     await page.locator('.profile-name-save').click();
     await expect(page.locator('.profile-name')).toContainText(originalName);
   });

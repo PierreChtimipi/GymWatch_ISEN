@@ -120,10 +120,12 @@ export default function ProfilePage() {
 
   // ── Name ──
   const saveName = async () => {
-    if (!nameInput.trim()) return;
+    const value = (nameRef.current?.value ?? '').trim();
+    if (!value) return;
     try {
-      await api.user.updateProfile({ name: nameInput.trim() });
-      setProfile((p) => p ? { ...p, name: nameInput.trim() } : p);
+      await api.user.updateProfile({ name: value });
+      setProfile((p) => p ? { ...p, name: value } : p);
+      setNameInput(value);
       showToast('Nom mis a jour !');
     } catch {
       showToast('Erreur lors de la mise a jour', 'error');
@@ -216,8 +218,7 @@ export default function ProfilePage() {
                 <input
                   ref={nameRef}
                   className="profile-name-input"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
+                  defaultValue={nameInput}
                   onKeyDown={(e) => e.key === 'Enter' && saveName()}
                   autoFocus
                 />
@@ -225,7 +226,7 @@ export default function ProfilePage() {
               </div>
             ) : (
               <div className="profile-name-row">
-                <h2 className="profile-name">{user?.name}</h2>
+                <h2 className="profile-name">{profile?.name ?? user?.name}</h2>
                 <button className="profile-name-edit-btn" onClick={() => setEditingName(true)}>
                   <Pencil size={14} />
                 </button>
