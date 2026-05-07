@@ -19,13 +19,11 @@ test.describe('Panneau d\'administration', () => {
   });
 
   test('la page admin est accessible pour un admin', async ({ page }) => {
-    await expect(page.locator('.admin-page')).toBeVisible();
+    await expect(page.locator('.admin-tabs')).toBeVisible();
   });
 
   test('la liste des salles s\'affiche dans l\'admin', async ({ page }) => {
-    // Chercher la section gyms / onglet gyms
-    const gymSection = page.locator('[class*="admin"]').first();
-    await expect(gymSection).toBeVisible();
+    await expect(page.locator('.admin-section')).toBeVisible();
   });
 
   test('la liste des machines s\'affiche', async ({ page }) => {
@@ -53,8 +51,8 @@ test.describe('Panneau d\'administration', () => {
 
     // Tenter d'accéder à /admin — doit rediriger ou ne pas afficher le contenu admin
     await p.goto('http://localhost:5173/admin');
-    // La page /admin ne doit pas afficher .admin-page (redirigé vers /)
-    await expect(p.locator('.admin-page')).not.toBeVisible({ timeout: 3000 });
+    // La page /admin ne doit pas afficher .admin-tabs (redirigé vers /)
+    await expect(p.locator('.admin-tabs')).not.toBeVisible({ timeout: 3000 });
     await ctx.close();
   });
 });

@@ -58,6 +58,6 @@ test.describe('Réservation de machine', () => {
 
   test('les stats de disponibilité s\'affichent dans l\'en-tête', async ({ page }) => {
     // Ex: "3/10 machines disponibles"
-    await expect(page.locator('.gym-header')).toContainText(/\d+\/\d+ machines disponibles/);
+    await expect(page.locator('.page-header')).toContainText(/\d+\/\d+ machines disponibles/);
   });
 });
