@@ -1,0 +1,150 @@
+.settings-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.settings-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settings-avatar span {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-white);
+}
+
+.settings-profile-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.settings-profile-since {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+}
+
+.settings-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.settings-group {
+  padding: 0;
+  overflow: hidden;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  padding: var(--spacing-md);
+  background: transparent;
+  text-align: left;
+  border-bottom: 1px solid var(--color-gray-light);
+  transition: background 0.15s ease;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item:active {
+  background: var(--color-gray-light);
+}
+
+.setting-item-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  display: flex;
+}
+
+.setting-item-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-item-label {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.setting-item-value {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.setting-item-arrow {
+  color: var(--color-gray-light);
+  flex-shrink: 0;
+}
+
+.setting-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 13px;
+  background: var(--color-gray-light);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.setting-toggle--on {
+  background: var(--color-primary);
+}
+
+.setting-toggle-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--color-toggle-thumb);
+  box-shadow: var(--shadow-sm);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.setting-toggle--on .setting-toggle-thumb {
+  transform: translateX(18px);
+}
+
+.settings-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-danger);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: 1px solid rgba(229, 57, 53, 0.2);
+  transition: background 0.15s ease;
+}
+
+.settings-logout:active {
+  background: rgba(229, 57, 53, 0.05);
+}

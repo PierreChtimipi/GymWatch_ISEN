@@ -1,0 +1,133 @@
+.class-card {
+  display: flex;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-light);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.class-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.class-card-accent {
+  width: 5px;
+  flex-shrink: 0;
+  background: var(--class-color);
+}
+
+.class-card-body {
+  flex: 1;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.class-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
+
+.class-card-name {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.class-card-instructor {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+}
+
+.class-card-meta {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.class-card-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+}
+
+.class-card-spots-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-gray-light);
+  overflow: hidden;
+}
+
+.class-card-spots-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--class-color);
+  transition: width 0.3s ease;
+}
+
+.class-card-add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--color-black);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.class-card-add-btn:active {
+  transform: scale(0.96);
+}
+
+.class-card-add-btn:disabled {
+  background: var(--color-gray-light);
+  color: var(--color-gray);
+  cursor: not-allowed;
+}
+
+.class-card-booked-actions {
+  display: inline-flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.class-card-booked-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 152, 0, 0.15);
+  color: var(--color-warning);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.class-card-cancel-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  background: var(--color-primary-light);
+  color: var(--color-black);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.class-card-cancel-btn:hover {
+  background: var(--color-primary);
+}
+
+.class-card-cancel-btn:active {
+  transform: scale(0.98);
+}

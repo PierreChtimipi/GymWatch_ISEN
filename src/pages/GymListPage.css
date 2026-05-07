@@ -1,0 +1,138 @@
+.gym-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.gym-list-card {
+  padding: var(--spacing-lg);
+  transition: box-shadow 0.2s;
+  position: relative;
+}
+
+.gym-list-card--subscribed {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.gym-list-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.gym-list-card-name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 4px;
+}
+
+.gym-list-card-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+
+.gym-list-subscribed-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: rgba(245, 166, 35, 0.12);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.gym-list-card-desc {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-md);
+}
+
+.gym-list-card-stats {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.gym-list-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+}
+
+.gym-list-stat svg {
+  color: var(--color-gray);
+  flex-shrink: 0;
+}
+
+.gym-list-stat-label {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gym-list-occupancy-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-gray-light);
+  overflow: hidden;
+  margin-bottom: var(--spacing-md);
+}
+
+.gym-list-occupancy-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.gym-list-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.gym-list-btn:active {
+  transform: scale(0.98);
+}
+
+.gym-list-btn--join {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.gym-list-btn--join:hover {
+  background: var(--color-primary-dark);
+}
+
+.gym-list-btn--leave {
+  background: transparent;
+  color: var(--color-danger);
+  border: 1px solid rgba(229, 57, 53, 0.25);
+}
+
+.gym-list-btn--leave:active {
+  background: rgba(229, 57, 53, 0.05);
+}

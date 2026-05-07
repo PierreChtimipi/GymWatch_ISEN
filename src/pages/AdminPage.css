@@ -1,0 +1,450 @@
+.admin-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.admin-shield {
+  color: var(--color-primary);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  background: var(--color-gray-light);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.admin-tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray);
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.admin-tab--active {
+  background: var(--color-white);
+  color: var(--color-black);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.admin-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-section-header .section-title {
+  margin-bottom: 0;
+}
+
+.admin-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.admin-add-btn:active {
+  transform: scale(0.97);
+  background: var(--color-primary-dark);
+}
+
+/* ─── Form ─────────────────────────────────────────────────────────────── */
+
+.admin-form {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.admin-form-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.admin-form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.admin-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.admin-form-field label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-gray);
+}
+
+.admin-form-field input,
+.admin-form-field select {
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-gray-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  outline: none;
+  background: var(--color-white);
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.admin-form-field input:focus,
+.admin-form-field select:focus {
+  border-color: var(--color-primary);
+}
+
+.admin-select-wrapper {
+  position: relative;
+}
+
+.admin-select-wrapper select {
+  appearance: none;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.admin-select-wrapper svg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-gray);
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  margin-top: var(--spacing-xs);
+}
+
+.admin-btn-cancel {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--color-gray-light);
+  color: var(--color-gray);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.admin-btn-submit {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.admin-btn-submit:active {
+  transform: scale(0.97);
+}
+
+/* ─── Groups ────────────────────────────────────────────────────────────── */
+
+.admin-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.admin-group-title {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-left: 4px;
+}
+
+.admin-items {
+  padding: 0;
+  overflow: hidden;
+}
+
+.admin-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+}
+
+.admin-item--bordered {
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+.admin-item-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.admin-item-dot--available {
+  background: var(--color-success);
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+}
+
+.admin-item-dot--unavailable {
+  background: var(--color-danger);
+}
+
+.admin-class-accent {
+  width: 4px;
+  height: 40px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.admin-item-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-item-name {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-black);
+}
+
+.admin-item-sub {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+
+.admin-item-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.admin-badge-btn {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.admin-badge-btn--on {
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--color-success);
+}
+
+.admin-badge-btn--off {
+  background: rgba(229, 57, 53, 0.1);
+  color: var(--color-danger);
+}
+
+.admin-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-gray-light);
+  color: var(--color-gray);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.admin-icon-btn:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.admin-icon-btn--danger {
+  color: var(--color-danger);
+  background: rgba(229, 57, 53, 0.08);
+}
+
+.admin-icon-btn--confirm {
+  color: var(--color-success);
+  background: rgba(76, 175, 80, 0.1);
+}
+
+/* ─── Edit inline ────────────────────────────────────────────────────────── */
+
+.admin-class-edit-form {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  background: rgba(245, 166, 35, 0.03);
+}
+
+.admin-edit-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-edit-input input {
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  outline: none;
+  width: 100%;
+}
+
+/* ─── Gym stats ──────────────────────────────────────────────────────────── */
+
+.admin-gym-card {
+  padding: var(--spacing-lg);
+}
+
+.admin-gym-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.admin-gym-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.admin-gym-city {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-top: 2px;
+}
+
+.admin-gym-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-light);
+}
+
+.admin-gym-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-gray-light);
+  border-radius: var(--radius-sm);
+}
+
+.admin-gym-stat-label {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-gray);
+}
+
+.admin-gym-stat-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-black);
+  background: none;
+  cursor: pointer;
+}
+
+.admin-gym-stat-edit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-gym-stat-edit input {
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  outline: none;
+  width: 80px;
+}
+
+.admin-gym-stat-edit button {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--color-gray-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray);
+}
+
+/* ─── Dark mode support ──────────────────────────────────────────────────── */
+
+.dark .admin-form-field input,
+.dark .admin-form-field select {
+  color: var(--color-black);
+}
+
+.dark .admin-form-field input::placeholder {
+  color: var(--color-gray);
+}
+
+.dark .admin-edit-input input {
+  color: var(--color-black);
+}
+
+.dark .admin-edit-input input::placeholder {
+  color: var(--color-gray);
+}
+
+.dark .admin-gym-stat-edit input {
+  color: var(--color-black);
+}
+
+.dark .admin-gym-stat-edit input::placeholder {
+  color: var(--color-gray);
+}
