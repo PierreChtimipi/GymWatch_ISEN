@@ -13,7 +13,7 @@ export const ADMIN_USER = {
 
 export async function login(page: Page, email = DEMO_USER.email, password = DEMO_USER.password) {
   await page.goto('/');
-  await page.getByPlaceholder('Adresse e-mail').fill(email);
+  await page.getByPlaceholder('Email').fill(email);
   await page.getByPlaceholder('Mot de passe').fill(password);
   await page.getByRole('button', { name: 'Se connecter' }).click();
   // Attendre que le login se termine (la navbar apparaît)

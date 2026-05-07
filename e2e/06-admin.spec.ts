@@ -46,7 +46,7 @@ test.describe('Panneau d\'administration', () => {
     await p.getByRole('button', { name: "S'inscrire" }).click();
     const ts = Date.now();
     await p.getByPlaceholder('Prenom').fill('UserTest');
-    await p.getByPlaceholder('Adresse e-mail').fill(`nonadmin_${ts}@test.fr`);
+    await p.getByPlaceholder('Email').fill(`nonadmin_${ts}@test.fr`);
     await p.getByPlaceholder('Mot de passe').fill('test1234');
     await p.getByRole('button', { name: "S'inscrire" }).click();
     await p.waitForSelector('.navbar', { timeout: 8000 });

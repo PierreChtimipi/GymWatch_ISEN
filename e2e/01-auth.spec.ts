@@ -19,7 +19,7 @@ test.describe('Authentification', () => {
 
   test('mauvais mot de passe → message d\'erreur', async ({ page }) => {
     await page.goto('/');
-    await page.getByPlaceholder('Adresse e-mail').fill(DEMO_USER.email);
+    await page.getByPlaceholder('Email').fill(DEMO_USER.email);
     await page.getByPlaceholder('Mot de passe').fill('mauvais_mot_de_passe');
     await page.getByRole('button', { name: 'Se connecter' }).click();
     await expect(page.locator('.login-error')).toBeVisible();
@@ -27,7 +27,7 @@ test.describe('Authentification', () => {
 
   test('email inexistant → message d\'erreur', async ({ page }) => {
     await page.goto('/');
-    await page.getByPlaceholder('Adresse e-mail').fill('inconnu@test.fr');
+    await page.getByPlaceholder('Email').fill('inconnu@test.fr');
     await page.getByPlaceholder('Mot de passe').fill('test1234');
     await page.getByRole('button', { name: 'Se connecter' }).click();
     await expect(page.locator('.login-error')).toBeVisible();
@@ -48,7 +48,7 @@ test.describe('Authentification', () => {
     await page.getByRole('button', { name: "S'inscrire" }).click();
     const ts = Date.now();
     await page.getByPlaceholder('Prenom').fill(`TestUser${ts}`);
-    await page.getByPlaceholder('Adresse e-mail').fill(`test_${ts}@gymwatch.fr`);
+    await page.getByPlaceholder('Email').fill(`test_${ts}@gymwatch.fr`);
     await page.getByPlaceholder('Mot de passe').fill('test1234');
     await page.getByRole('button', { name: "S'inscrire" }).click();
     // Après inscription réussie, la navbar doit apparaître
