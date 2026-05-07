@@ -23,15 +23,21 @@ test.describe('Réservation de cours collectif', () => {
     const firstCard = page.locator('.class-card').first();
     await expect(firstCard).toBeVisible();
     // La carte doit contenir les infos de places
-    await expect(firstCard.locator('.class-card-detail')).toContainText(/\d+\/\d+ places/);
+    // .class-card-detail : 2 spans (horaire + places) — .nth(1) = places
+    await expect(firstCard.locator('.class-card-detail').nth(1)).toContainText(/\d+\/\d+ places/);
   });
 
   test('inscription à un cours disponible', async ({ page }) => {
+    // Si déjà inscrit depuis une run précédente, annuler d'abord
+    const existingCancel = page.locator('.class-card-cancel-btn').first();
+    if (await existingCancel.isVisible()) {
+      await existingCancel.click();
+      await expect(existingCancel).not.toBeVisible({ timeout: 3000 });
+    }
+
     // Chercher un cours non complet (bouton "+" actif)
-    const addBtn = page
-      .locator('.class-card-add-btn:not([disabled])')
-      .first();
-    await expect(addBtn).toBeVisible();
+    const addBtn = page.locator('.class-card-add-btn:not([disabled])').first();
+    await expect(addBtn).toBeVisible({ timeout: 5000 });
     await addBtn.click();
 
     // Après inscription, le badge "Inscrit" doit apparaître

@@ -27,12 +27,8 @@ test.describe('Panneau d\'administration', () => {
   });
 
   test('la liste des machines s\'affiche', async ({ page }) => {
-    // Naviguer vers l'onglet machines si nécessaire
-    const machinesTab = page.getByRole('button', { name: /machines/i }).first();
-    if (await machinesTab.count() > 0) {
-      await machinesTab.click();
-    }
-    await expect(page.locator('[class*="machine"]').first()).toBeVisible({ timeout: 5000 });
+    // L'onglet Machines est actif par défaut — les items sont .admin-item
+    await expect(page.locator('.admin-item').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('un utilisateur non-admin ne peut pas accéder à /admin', async ({ page, browser }) => {
