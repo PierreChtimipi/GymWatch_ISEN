@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: gymwatch
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20
+      - key: GYMWATCH_DB
+        value: /var/data/gymwatch.db
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: gymwatch-data
+      mountPath: /var/data
+      sizeGB: 1
