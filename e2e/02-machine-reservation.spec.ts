@@ -19,24 +19,35 @@ test.describe('Réservation de machine', () => {
   });
 
   test('une machine disponible peut être réservée', async ({ page }) => {
+    // Si déjà réservée par Valentin (run précédente), annuler d'abord
+    const existingCancel = page.locator('.machine-card-btn--cancel').first();
+    if (await existingCancel.isVisible()) {
+      await existingCancel.click();
+      await page.waitForSelector('.toast--visible', { timeout: 5000 });
+      await page.waitForTimeout(300);
+    }
+
     // Trouver la première machine disponible
-    const reserveBtn = page.locator('.machine-card-btn').first();
-    await expect(reserveBtn).toBeVisible();
-    await expect(reserveBtn).toContainText('Reserver');
+    const reserveBtn = page.locator('.machine-card--available .machine-card-btn').first();
+    await expect(reserveBtn).toBeVisible({ timeout: 5000 });
     await reserveBtn.click();
 
     // Toast de confirmation
     await expect(page.locator('.toast--visible')).toContainText('réservée', { timeout: 5000 });
-
     // Le badge de la carte doit indiquer "Ma réservation"
-    await expect(page.locator('.machine-card-badge').first()).toContainText('Ma réservation', { timeout: 5000 });
+    await expect(page.locator('.machine-card-badge').filter({ hasText: 'Ma réservation' }).first()).toBeVisible({ timeout: 5000 });
   });
 
   test('une réservation peut être annulée', async ({ page }) => {
-    // Réserver d'abord
-    const firstAvailableBtn = page.locator('.machine-card--available .machine-card-btn').first();
-    await firstAvailableBtn.click();
-    await page.waitForSelector('.toast--visible', { timeout: 5000 });
+    // Si pas encore réservée, réserver d'abord
+    const existingCancel = page.locator('.machine-card-btn--cancel').first();
+    if (!await existingCancel.isVisible()) {
+      const reserveBtn = page.locator('.machine-card--available .machine-card-btn').first();
+      await expect(reserveBtn).toBeVisible({ timeout: 5000 });
+      await reserveBtn.click();
+      await page.waitForSelector('.toast--visible', { timeout: 5000 });
+      await page.waitForTimeout(300);
+    }
 
     // Annuler la réservation
     const cancelBtn = page.locator('.machine-card-btn--cancel').first();
