@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { InstallPrompt } from './components/InstallPrompt';
 import { useAuth } from './context/AuthContext';
 import HomePage from './pages/HomePage';
 import GymPage from './pages/GymPage';
@@ -38,6 +39,7 @@ function AppRoutes() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Navbar />
+      <InstallPrompt />
     </>
   );
 }
