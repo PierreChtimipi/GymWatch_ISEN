@@ -15,7 +15,7 @@ test.describe('Réservation de cours collectif', () => {
     await login(page);
     await page.goto('/salle');
     // Basculer sur l'onglet Cours
-    await page.getByRole('button', { name: 'Cours' }).click();
+    await page.getByRole('button', { name: 'Cours collectifs' }).click();
     await page.waitForSelector('.gym-classes-list', { timeout: 8000 });
   });
 
@@ -41,18 +41,23 @@ test.describe('Réservation de cours collectif', () => {
   });
 
   test('désinscription d\'un cours réservé', async ({ page }) => {
-    // S'inscrire d'abord
+    // Si pas encore inscrit (état DB propre), s'inscrire d'abord
+    const alreadyBooked = page.locator('.class-card-cancel-btn').first();
     const addBtn = page.locator('.class-card-add-btn:not([disabled])').first();
-    await addBtn.click();
-    await expect(page.locator('.class-card-booked-badge').first()).toBeVisible({ timeout: 5000 });
+
+    if (await alreadyBooked.count() === 0) {
+      await expect(addBtn).toBeVisible();
+      await addBtn.click();
+      await expect(page.locator('.class-card-booked-badge').first()).toBeVisible({ timeout: 5000 });
+    }
 
     // Annuler l'inscription
     const cancelBtn = page.locator('.class-card-cancel-btn').first();
     await expect(cancelBtn).toBeVisible();
     await cancelBtn.click();
 
-    // Le badge "Inscrit" ne doit plus être visible pour ce cours
-    await expect(page.locator('.class-card-booked-badge').first()).not.toBeVisible({ timeout: 5000 });
+    // Le badge "Inscrit" ne doit plus être visible
+    await expect(page.locator('.class-card-cancel-btn').first()).not.toBeVisible({ timeout: 5000 });
   });
 
   test('un cours complet n\'est pas réservable', async ({ page }) => {

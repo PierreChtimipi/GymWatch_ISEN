@@ -15,7 +15,7 @@ test.describe('Panneau d\'administration', () => {
   test.beforeEach(async ({ page }) => {
     await login(page); // valentin est admin
     await page.goto('/admin');
-    await page.waitForSelector('.admin-page', { timeout: 8000 });
+    await page.waitForSelector('.admin-tabs', { timeout: 8000 });
   });
 
   test('la page admin est accessible pour un admin', async ({ page }) => {

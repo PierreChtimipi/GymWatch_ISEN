@@ -25,8 +25,10 @@ test.describe('Gestion du profil', () => {
   test('modifier le nom et sauvegarder', async ({ page }) => {
     const originalName = DEMO_USER.name;
 
-    // Cliquer sur le bouton d'édition du nom
-    await page.locator('.profile-name-edit-btn').click();
+    // Scroll + cliquer sur le bouton d'édition (petit bouton, important sur mobile)
+    const editBtn = page.locator('.profile-name-edit-btn');
+    await editBtn.scrollIntoViewIfNeeded();
+    await editBtn.click();
     const nameInput = page.locator('.profile-name-input');
     await expect(nameInput).toBeVisible();
 
@@ -38,7 +40,9 @@ test.describe('Gestion du profil', () => {
     await expect(page.locator('.profile-name')).toContainText('Valentin Test', { timeout: 5000 });
 
     // Restaurer le nom original
-    await page.locator('.profile-name-edit-btn').click();
+    const editBtn2 = page.locator('.profile-name-edit-btn');
+    await editBtn2.scrollIntoViewIfNeeded();
+    await editBtn2.click();
     await page.locator('.profile-name-input').fill(originalName);
     await page.locator('.profile-name-save').click();
     await expect(page.locator('.profile-name')).toContainText(originalName);
