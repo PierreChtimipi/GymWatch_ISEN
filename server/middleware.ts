@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import db from "./database.js";
 
-const JWT_SECRET = "gymwatch-secret-key-dev";
+const JWT_SECRET = process.env.JWT_SECRET ?? "gymwatch-secret-key-dev";
 
 export interface AuthRequest extends Request {
   userId?: number;
