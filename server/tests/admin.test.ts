@@ -106,7 +106,7 @@ describe("POST /api/admin/machines", () => {
 describe("PUT /api/admin/machines/:id", () => {
   it("200 — met à jour une machine", async () => {
     const res = await request(app)
-      .put("/api/admin/machines/m1")
+      .put("/api/admin/machines/g1m1")
       .set("Authorization", `Bearer ${adminToken}`)
       .send({ name: "Bench Press V2", available: true });
     expect(res.status).toBe(200);
@@ -125,7 +125,7 @@ describe("PUT /api/admin/machines/:id", () => {
 describe("DELETE /api/admin/machines/:id", () => {
   it("200 — supprime une machine", async () => {
     const res = await request(app)
-      .delete("/api/admin/machines/m1")
+      .delete("/api/admin/machines/g1m1")
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -175,7 +175,7 @@ describe("POST /api/admin/classes", () => {
 describe("PUT /api/admin/classes/:id", () => {
   it("200 — met à jour un cours", async () => {
     const res = await request(app)
-      .put("/api/admin/classes/c1")
+      .put("/api/admin/classes/g1c1")
       .set("Authorization", `Bearer ${adminToken}`)
       .send({ instructor: "Marc" });
     expect(res.status).toBe(200);
@@ -194,7 +194,7 @@ describe("PUT /api/admin/classes/:id", () => {
 describe("DELETE /api/admin/classes/:id", () => {
   it("200 — supprime un cours", async () => {
     const res = await request(app)
-      .delete("/api/admin/classes/c1")
+      .delete("/api/admin/classes/g1c1")
       .set("Authorization", `Bearer ${adminToken}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);

@@ -35,7 +35,7 @@ describe("GET /api/classes", () => {
 describe("POST /api/classes/:id/book", () => {
   it("200 — réservation réussie", async () => {
     const res = await request(app)
-      .post("/api/classes/c1/book")
+      .post("/api/classes/g1c2/book")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -43,7 +43,7 @@ describe("POST /api/classes/:id/book", () => {
 
   it("400 — déjà inscrit", async () => {
     const res = await request(app)
-      .post("/api/classes/c1/book")
+      .post("/api/classes/g1c2/book")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(400);
     expect(res.body.error).toMatch(/deja inscrit/i);
@@ -57,7 +57,7 @@ describe("POST /api/classes/:id/book", () => {
   });
 
   it("401 — sans token", async () => {
-    const res = await request(app).post("/api/classes/c1/book");
+    const res = await request(app).post("/api/classes/g1c2/book");
     expect(res.status).toBe(401);
   });
 });
@@ -66,7 +66,7 @@ describe("DELETE /api/classes/:id/book", () => {
   it("200 — désinscription réussie", async () => {
     // Valentin est inscrit à c1 (test précédent)
     const res = await request(app)
-      .delete("/api/classes/c1/book")
+      .delete("/api/classes/g1c2/book")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body.success).toBe(true);
@@ -74,13 +74,13 @@ describe("DELETE /api/classes/:id/book", () => {
 
   it("400 — pas inscrit", async () => {
     const res = await request(app)
-      .delete("/api/classes/c1/book")
+      .delete("/api/classes/g1c2/book")
       .set("Authorization", `Bearer ${token}`);
     expect(res.status).toBe(400);
   });
 
   it("401 — sans token", async () => {
-    const res = await request(app).delete("/api/classes/c1/book");
+    const res = await request(app).delete("/api/classes/g1c2/book");
     expect(res.status).toBe(401);
   });
 });
