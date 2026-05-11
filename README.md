@@ -4,7 +4,7 @@ Application web de salle de sport connectée — projet étudiant ISEN 4ème ann
 
 GymWatch permet aux membres d'une salle de sport de réserver des machines en temps réel, de s'inscrire à des cours collectifs, de suivre leurs stats et de gérer leur profil. Un panneau d'administration permet de gérer les machines, les cours et les salles.
 
-**Production → [gymwatch.onrender.com](https://gymwatch.onrender.com)**
+**Production → [gymwatch.onrender.com](https://gymwatch-isen.onrender.com)**
 
 ---
 
@@ -70,7 +70,6 @@ La base de données SQLite est créée automatiquement au premier démarrage (`g
 | Rôle | Email | Mot de passe |
 |------|-------|--------------|
 | Admin | valentin@gymwatch.fr | demo1234 |
-| Membre | sophie@gymwatch.fr | demo1234 |
 
 ---
 
@@ -145,5 +144,5 @@ Variables d'environnement à configurer sur Render :
 ---
 
 ## Équipe
-
-Projet réalisé dans le cadre du cours de développement web — ISEN Yncréa, 2025-2026.
+Pierre F, Cyril D, Sacha B.    
+ISEN AP4
